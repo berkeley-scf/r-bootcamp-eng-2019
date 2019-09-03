@@ -1,6 +1,6 @@
 % R bootcamp, Module 5: Programming
 % August 2019, UC Berkeley
-% Simal Irmak
+% Emily Grabowski
 
 ```{r chunksetup, include=FALSE}
 # include any code here you don't want to show up in the document,
