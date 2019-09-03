@@ -21,7 +21,7 @@ No prior experience with R is expected, but some familiarity with programming co
 
 Course logistics
 
-Location: Banatao Auditorium in Sutardja Dai Hall on the UC Berkeley campus.
+Location: Banatao Auditorium in Sutardja Dai Hall on the UC Berkeley campus. Only some doors to the building will be open - please plan to enter on the third floor from the Hearst Avenue side of the building.
 
 Time: 
   - Saturday, September 7, 8:15 am - 5 pm
@@ -39,9 +39,9 @@ Course content is available through Github. Please download a copy of the course
 
   2) Alternatively, simply download a zip file containing all the content at https://github.com/berkeley-scf/r-bootcamp-eng-2019/archive/master.zip.
 
-Here is the [schedule for the main track of the bootcamp](https://github.com/berkeley-scf/r-bootcamp-eng-2019/blob/master/schedule/schedule.pdf). We will also offer a second track that allows those first encountering R or programming to have time for more intensive practice with the initial material. Here is the [schedule for the second track](https://github.com/berkeley-scf/r-bootcamp-eng-2019/blob/master/schedule/schedule-track2.pdf). After lunch on the first day you'll have the opportunity to decide whether you want to stay with the main track or attend the second track. You do NOT need to decide in advance.
+Here is the [schedule for the bootcamp](https://github.com/berkeley-scf/r-bootcamp-eng-2019/blob/master/schedule/schedule.pdf).
 
-We recommend that you take a look at the syllabus and the background module (https://htmlpreview.github.io/?https://github.com/berkeley-scf/r-bootcamp-eng-2019/blob/master/modules/module0_induction.html) in advance to get a sense for what we'll cover. And for those of you with absolutely no experience with R, it will help with your learning curve if you try to play around with R using the material in (https://htmlpreview.github.io/?https://github.com/berkeley-scf/r-bootcamp-eng-2019/blob/master/modules/module1_basics.html) beforehand.
+We recommend that you take a look at the schedule and the background module (https://htmlpreview.github.io/?https://github.com/berkeley-scf/r-bootcamp-eng-2019/blob/master/modules/module0_induction.html) in advance to get a sense for what we'll cover. And for those of you with absolutely no experience with R, it will help with your learning curve if you try to play around with R using the material in (https://htmlpreview.github.io/?https://github.com/berkeley-scf/r-bootcamp-eng-2019/blob/master/modules/module1_basics.html) beforehand.
 
 For the presentation materials (including embedded demo code), see the html files in *modules*. The *_slides_* files have individual pages, while the other html files are one continuous page per module. To run the demo code, open the .Rmd file for the module in RStudio. You can then run individual chunks of code.
 
