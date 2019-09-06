@@ -332,7 +332,7 @@ We realize we're asking you to (seemingly redundantly) register in multiple plac
 
 3) Click the "Create New Account" tab - fill in the required fields and click the "Create New Account" button at the bottom of the page
 
-4) Visit the calendar entry for this workshop: [https://dlab.berkeley.edu/training/r-bootcamp-3](https://dlab.berkeley.edu/training/r-bootcamp-3), scroll down and click "Register for this training"
+4) Visit the calendar entry for this workshop: [https://dlab.berkeley.edu/training/meng-r-bootcamp](https://dlab.berkeley.edu/training/meng-r-bootcamp), scroll down and click "Register for this training"
 
 5) Fill out the required fields and click "Save Registration". 
 

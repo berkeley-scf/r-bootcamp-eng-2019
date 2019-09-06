@@ -28,7 +28,7 @@
 ```
 
 ```
-## [1] 7.937606
+## [1] 7.247506
 ```
 
 ```r
@@ -214,7 +214,7 @@ devs
 ```
 
 ```
-## [1] -0.8830913  0.8445572 -0.4738143 -1.1433168 -0.6010117
+## [1] -1.3973012  0.3888835 -0.2685463  0.5641308  0.1529288
 ```
 
 ```r
@@ -367,8 +367,8 @@ vals[1:8]
 ```
 
 ```
-## [1] 0.0000000 0.0000000 1.1775566 0.0000000 0.2889361 0.0000000 0.0000000
-## [8] 0.5265231
+## [1] 0.0000000 0.0000000 0.9625714 0.4836422 0.0000000 0.0000000 0.1825573
+## [8] 0.9840833
 ```
 
 ```r
@@ -407,7 +407,7 @@ vec1 > vec2
 ```
 
 ```
-## [1] FALSE FALSE  TRUE  TRUE FALSE
+## [1] FALSE  TRUE FALSE FALSE FALSE
 ```
 
 ```r
@@ -468,7 +468,7 @@ median
 ```
 ## function (x, na.rm = FALSE, ...) 
 ## UseMethod("median")
-## <bytecode: 0x561256d3bce8>
+## <bytecode: 0x563cf7558ce8>
 ## <environment: namespace:stats>
 ```
 
@@ -801,7 +801,7 @@ We realize we're asking you to (seemingly redundantly) register in multiple plac
 
 3) Click the "Create New Account" tab - fill in the required fields and click the "Create New Account" button at the bottom of the page
 
-4) Visit the calendar entry for this workshop: [https://dlab.berkeley.edu/training/r-bootcamp-3](https://dlab.berkeley.edu/training/r-bootcamp-3), scroll down and click "Register for this training"
+4) Visit the calendar entry for this workshop: [https://dlab.berkeley.edu/training/meng-r-bootcamp](https://dlab.berkeley.edu/training/meng-r-bootcamp), scroll down and click "Register for this training"
 
 5) Fill out the required fields and click "Save Registration". 
 
