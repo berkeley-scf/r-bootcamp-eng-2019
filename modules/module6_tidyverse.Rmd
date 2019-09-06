@@ -366,7 +366,8 @@ Because `continent` and `year` are not variables our current environment! dplyr 
 This is fine if you have a data analysis workflow but if you want to write a function that, for example, selects an arbitrary set of columns, you'll run into trouble.
 
 ```{r, eval = F}
-## here's a helper function that computes the mean of a variable, stratifying by a grouping variable
+## here's a helper function that computes the mean of a variable,
+## stratifying by a grouping variable
 grouped_mean <- function(data, group_var, summary_var) {
   data %>%
     group_by(group_var) %>%

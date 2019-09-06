@@ -537,7 +537,8 @@ This is fine if you have a data analysis workflow but if you want to write a fun
 
 
 ```r
-## here's a helper function that computes the mean of a variable, stratifying by a grouping variable
+## here's a helper function that computes the mean of a variable,
+## stratifying by a grouping variable
 grouped_mean <- function(data, group_var, summary_var) {
   data %>%
     group_by(group_var) %>%

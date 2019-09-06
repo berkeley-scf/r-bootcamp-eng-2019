@@ -333,7 +333,7 @@ lm(gap$lifeExp ~ gap$gdpPercap)
 
 ```
 ## gap$lifeExp ~ gap$gdpPercap
-## <environment: 0x55fad98921f8>
+## <environment: 0x5564ce2cad38>
 ```
 
 ```r
@@ -397,19 +397,19 @@ To read and write from R, you need to have a firm grasp of where in the computer
 ```r
 getwd()  # what directory will R look in?
 # Linux/Mac specific
-setwd('~/Desktop/r-bootcamp-fall-2019') # change the working directory
+setwd('~/Desktop/r-bootcamp-eng-2019') # change the working directory
 setwd('/Users/paciorek/Desktop') # absolute path
 getwd()
-setwd('r-bootcamp-fall-2019/modules') # relative path
+setwd('r-bootcamp-eng-2019/modules') # relative path
 setwd('../tmp') # relative path, up and back down the tree
 
 # Windows - use either \\ or / to indicate directories
-# setwd('C:\\Users\\Your_username\\Desktop\\r-bootcamp-fall-2019')
-# setwd('..\\r-bootcamp-fall-2019')
+# setwd('C:\\Users\\Your_username\\Desktop\\r-bootcamp-eng-2019')
+# setwd('..\\r-bootcamp-eng-2019')
 
 # platform-agnostic
-setwd(file.path('~', 'Desktop', 'r-bootcamp-fall-2019', 'modules')) # change the working directory
-setwd(file.path('/', 'Users', 'paciorek', 'Desktop', 'r-bootcamp-fall-2019', 'modules')) # absolute path
+setwd(file.path('~', 'Desktop', 'r-bootcamp-eng-2019', 'modules')) # change the working directory
+setwd(file.path('/', 'Users', 'paciorek', 'Desktop', 'r-bootcamp-eng-2019', 'modules')) # absolute path
 getwd()
 setwd(file.path('..', 'data')) # relative path
 ```
@@ -509,7 +509,7 @@ print(xtable(table(gap$year, gap$continent)), type = "html")
 
 ```
 ## <!-- html table generated in R 3.6.1 by xtable 1.8-4 package -->
-## <!-- Fri Sep  6 10:49:12 2019 -->
+## <!-- Fri Sep  6 13:13:40 2019 -->
 ## <table border=1>
 ## <tr> <th>  </th> <th> Africa </th> <th> Americas </th> <th> Asia </th> <th> Europe </th> <th> Oceania </th>  </tr>
 ##   <tr> <td align="right"> 1952 </td> <td align="right">  52 </td> <td align="right">  25 </td> <td align="right">  33 </td> <td align="right">  30 </td> <td align="right">   2 </td> </tr>
@@ -553,7 +553,7 @@ As you're gathering by now, I've used Git and Github to manage all the content f
 
 ### Making changes to a repository
 
-We'll go through a short example of making changes to the r-bootcamp-fall-2019 repository. In this case you don't have permission to make changes so you'll just have to follow along as I do it. However, you could start your own repository and then you'd be able to do similar things.
+We'll go through a short example of making changes to the r-bootcamp-eng-2019 repository. In this case you don't have permission to make changes so you'll just have to follow along as I do it. However, you could start your own repository and then you'd be able to do similar things.
 
 Note that there are [graphical interfaces to Git](https://git-scm.com/downloads/guis) that you might want to check out, but here I'm just going to do it from the command line on my Mac.
 

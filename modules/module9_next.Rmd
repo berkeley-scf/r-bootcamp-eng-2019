@@ -37,8 +37,6 @@ The SCF has a series of [hands-on tutorials](https://statistics.berkeley.edu/com
 
 [D-Lab](https://dlab.berkeley.edu) holds workshops on R and other topics, as well as having drop-in office hours. 
 
-For grad students and researchers in statistics, economics and biostatistics, Chris Paciorek provides consulting via consult@stat.berkeley.edu and consult@econ.berkeley.edu and drop-in discussions in Evans 495.
-
 For researchers around campus, Berkeley Research Computing offers consulting via brc@berkeley.edu on accessing and using cluster and cloud resources on campus and beyond, including R.
 
 Various online tutorials/courses are offered by [DataCamp](https://www.datacamp.com/), [Software Carpentry](https://swcarpentry.github.io/r-novice-inflammation/), [Coursera](https://www.coursera.org/course/rprog), and [Leada](https://www.teamleada.com/courses).  The DataCamp Introduction to R and Intermediate R courses are free and look pretty good to me. Finally the [swirl package](https://swirlstats.com/students.html) provides interactive training.
@@ -60,6 +58,5 @@ Specific aspects of R:
 
 # Thanks!  
 
-* To Evan, Nima, and Miyabi.
-* To Jon Stiles and D-Lab for sponsorship and logistical support.
-* To the Statewide Database/School of Law for hosting/co-sponsoring.
+* To Evan, Simal, and Emily.
+* To D-Lab and the Masters in Engineering program.

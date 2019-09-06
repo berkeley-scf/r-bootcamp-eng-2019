@@ -28,7 +28,7 @@
 ```
 
 ```
-## [1] 7.015894
+## [1] 7.937606
 ```
 
 ```r
@@ -214,7 +214,7 @@ devs
 ```
 
 ```
-## [1] -1.9535100 -0.5847474 -1.8180628  2.8601358 -0.7708416
+## [1] -0.8830913  0.8445572 -0.4738143 -1.1433168 -0.6010117
 ```
 
 ```r
@@ -367,8 +367,8 @@ vals[1:8]
 ```
 
 ```
-## [1] 0.00000000 0.00000000 0.00000000 0.00000000 0.04235965 0.48434470
-## [7] 0.00000000 1.53349378
+## [1] 0.0000000 0.0000000 1.1775566 0.0000000 0.2889361 0.0000000 0.0000000
+## [8] 0.5265231
 ```
 
 ```r
@@ -407,7 +407,7 @@ vec1 > vec2
 ```
 
 ```
-## [1]  TRUE  TRUE FALSE  TRUE  TRUE
+## [1] FALSE FALSE  TRUE  TRUE FALSE
 ```
 
 ```r
@@ -468,7 +468,7 @@ median
 ```
 ## function (x, na.rm = FALSE, ...) 
 ## UseMethod("median")
-## <bytecode: 0x55e03c505ce8>
+## <bytecode: 0x561256d3bce8>
 ## <environment: namespace:stats>
 ```
 
@@ -795,13 +795,13 @@ Please register on the D-Lab site by following the instructions below.
 
 We realize we're asking you to (seemingly redundantly) register in multiple places, but there is a reason for it. The initial registration form was used in order to facilitate creation of this bootcamp specially for the Engineering School. This registration is needed for D-Lab as we need to keep track of participation in our trainings to justify funding from campus.
 
-1) Visit https://dlab.berkeley.edu/
+1) Visit [https://dlab.berkeley.edu](https://dlab.berkeley.edu).
 
 2) Click "Log in" in the upper right corner
 
 3) Click the "Create New Account" tab - fill in the required fields and click the "Create New Account" button at the bottom of the page
 
-4) Visit the calendar entry for this workshop: https://dlab.berkeley.edu/training/r-bootcamp-3, scroll down and click "Register for this training"
+4) Visit the calendar entry for this workshop: [https://dlab.berkeley.edu/training/r-bootcamp-3](https://dlab.berkeley.edu/training/r-bootcamp-3), scroll down and click "Register for this training"
 
 5) Fill out the required fields and click "Save Registration". 
 

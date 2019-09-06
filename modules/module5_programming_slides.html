@@ -170,11 +170,10 @@ out[[<span class="st">'2007'</span>]]</code></pre></div>
 </div>
 <div id="branching-if-then-else-syntax" class="slide section level1">
 <h1>Branching (if-then-else syntax)</h1>
-<p>We already saw an example of branching in the <em>for</em> loop example.</p>
 <p>Here's a simple example to illustrate the syntax. Note that the <em>then</em> is implicit.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">val &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1</span>)
 val</code></pre></div>
-<pre><code>## [1] 1.500313</code></pre>
+<pre><code>## [1] 0.8170183</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (val <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>) {
   <span class="kw">print</span>(<span class="st">&quot;val is negative&quot;</span>)
 } <span class="cf">else</span> {
@@ -184,7 +183,7 @@ val</code></pre></div>
 <p>We can chain together <code>if</code> statements as follows.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">val &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1</span>)
 val</code></pre></div>
-<pre><code>## [1] -0.2575861</code></pre>
+<pre><code>## [1] 1.341644</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (val <span class="op">&lt;</span><span class="st"> </span><span class="dv">-1</span>) {
   <span class="kw">print</span>(<span class="st">&quot;val is more than one standard deviation below the mean.&quot;</span>)
 } <span class="cf">else</span> <span class="cf">if</span> (<span class="kw">abs</span>(val) <span class="op">&lt;=</span><span class="st"> </span><span class="dv">1</span>) {
@@ -192,10 +191,10 @@ val</code></pre></div>
 } <span class="cf">else</span> {
   <span class="kw">print</span>(<span class="st">&quot;val is more than one standard deviation above the mean.&quot;</span>)
 }</code></pre></div>
-<pre><code>## [1] &quot;val is within one standard deviation of the mean.&quot;</code></pre>
+<pre><code>## [1] &quot;val is more than one standard deviation above the mean.&quot;</code></pre>
 <p>In general, the <code>{</code> brackets are only needed if you have multiple R expressions, but R will complain when an <code>else</code> starts a line of code, so generally using the <code>{</code> is good practice. That said, this <em>works just fine</em>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (val <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>) <span class="kw">print</span>(<span class="st">&quot;val is negative&quot;</span>) <span class="cf">else</span> <span class="kw">print</span>(<span class="st">&quot;val is positive&quot;</span>)</code></pre></div>
-<pre><code>## [1] &quot;val is negative&quot;</code></pre>
+<pre><code>## [1] &quot;val is positive&quot;</code></pre>
 </div>
 <div id="the-condition-in-an-if-statement" class="slide section level1">
 <h1>The condition in an if statement</h1>
@@ -417,11 +416,11 @@ f &lt;-<span class="st"> </span><span class="cf">function</span>(y) {
 <p>And what about indexing?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(<span class="dv">100</span>), <span class="dv">10</span>)
 x[ , <span class="dv">2</span>]</code></pre></div>
-<pre><code>##  [1] 0.79413334 0.87605825 0.49066508 0.07331000 0.39045817 0.07930181
-##  [7] 0.38321617 0.91787529 0.27603109 0.24033914</code></pre>
+<pre><code>##  [1] 0.965197151 0.227098089 0.461359021 0.136812894 0.949940776
+##  [6] 0.572749031 0.382888537 0.004995218 0.501227367 0.408718669</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="st">'['</span>(x , , <span class="dv">2</span>)</code></pre></div>
-<pre><code>##  [1] 0.79413334 0.87605825 0.49066508 0.07331000 0.39045817 0.07930181
-##  [7] 0.38321617 0.91787529 0.27603109 0.24033914</code></pre>
+<pre><code>##  [1] 0.965197151 0.227098089 0.461359021 0.136812894 0.949940776
+##  [6] 0.572749031 0.382888537 0.004995218 0.501227367 0.408718669</code></pre>
 <p>Also yes!</p>
 <p>This holds more generally - one can investigate and see the same thing in terms of a <code>for</code> loop.</p>
 <h3 id="what-does-the-1st-principle-mean">What does the 1st principle mean?</h3>

@@ -71,8 +71,6 @@ summary(out[['2007']])
 
 # Branching (if-then-else syntax)
 
-We already saw an example of branching in the *for* loop example.
-
 Here's a simple example to illustrate the syntax. Note that the *then* is
 implicit.
 

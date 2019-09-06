@@ -208,7 +208,7 @@ z &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">a 
 <pre><code>## [1] 7</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(gap<span class="op">$</span>lifeExp <span class="op">~</span><span class="st"> </span>gap<span class="op">$</span>gdpPercap)</code></pre></div>
 <pre><code>## gap$lifeExp ~ gap$gdpPercap
-## &lt;environment: 0x55fad8c3f030&gt;</code></pre>
+## &lt;environment: 0x5564ce8c6030&gt;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stats<span class="op">::</span><span class="kw">lm</span>(gap<span class="op">$</span>lifeExp <span class="op">~</span><span class="st"> </span>gap<span class="op">$</span>gdpPercap)</code></pre></div>
 <pre><code>## 
 ## Call:
@@ -247,19 +247,19 @@ z &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">a 
 <p>To read and write from R, you need to have a firm grasp of where in the computer's filesystem you are reading and writing from.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getwd</span>()  <span class="co"># what directory will R look in?</span>
 <span class="co"># Linux/Mac specific</span>
-<span class="kw">setwd</span>(<span class="st">'~/Desktop/r-bootcamp-fall-2019'</span>) <span class="co"># change the working directory</span>
+<span class="kw">setwd</span>(<span class="st">'~/Desktop/r-bootcamp-eng-2019'</span>) <span class="co"># change the working directory</span>
 <span class="kw">setwd</span>(<span class="st">'/Users/paciorek/Desktop'</span>) <span class="co"># absolute path</span>
 <span class="kw">getwd</span>()
-<span class="kw">setwd</span>(<span class="st">'r-bootcamp-fall-2019/modules'</span>) <span class="co"># relative path</span>
+<span class="kw">setwd</span>(<span class="st">'r-bootcamp-eng-2019/modules'</span>) <span class="co"># relative path</span>
 <span class="kw">setwd</span>(<span class="st">'../tmp'</span>) <span class="co"># relative path, up and back down the tree</span>
 
 <span class="co"># Windows - use either \\ or / to indicate directories</span>
-<span class="co"># setwd('C:\\Users\\Your_username\\Desktop\\r-bootcamp-fall-2019')</span>
-<span class="co"># setwd('..\\r-bootcamp-fall-2019')</span>
+<span class="co"># setwd('C:\\Users\\Your_username\\Desktop\\r-bootcamp-eng-2019')</span>
+<span class="co"># setwd('..\\r-bootcamp-eng-2019')</span>
 
 <span class="co"># platform-agnostic</span>
-<span class="kw">setwd</span>(<span class="kw">file.path</span>(<span class="st">'~'</span>, <span class="st">'Desktop'</span>, <span class="st">'r-bootcamp-fall-2019'</span>, <span class="st">'modules'</span>)) <span class="co"># change the working directory</span>
-<span class="kw">setwd</span>(<span class="kw">file.path</span>(<span class="st">'/'</span>, <span class="st">'Users'</span>, <span class="st">'paciorek'</span>, <span class="st">'Desktop'</span>, <span class="st">'r-bootcamp-fall-2019'</span>, <span class="st">'modules'</span>)) <span class="co"># absolute path</span>
+<span class="kw">setwd</span>(<span class="kw">file.path</span>(<span class="st">'~'</span>, <span class="st">'Desktop'</span>, <span class="st">'r-bootcamp-eng-2019'</span>, <span class="st">'modules'</span>)) <span class="co"># change the working directory</span>
+<span class="kw">setwd</span>(<span class="kw">file.path</span>(<span class="st">'/'</span>, <span class="st">'Users'</span>, <span class="st">'paciorek'</span>, <span class="st">'Desktop'</span>, <span class="st">'r-bootcamp-eng-2019'</span>, <span class="st">'modules'</span>)) <span class="co"># absolute path</span>
 <span class="kw">getwd</span>()
 <span class="kw">setwd</span>(<span class="kw">file.path</span>(<span class="st">'..'</span>, <span class="st">'data'</span>)) <span class="co"># relative path</span></code></pre></div>
 <p>Many errors and much confusion result from you and R not being on the same page in terms of where in the directory structure you are.</p>
@@ -325,7 +325,7 @@ x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(xtable)
 <span class="kw">print</span>(<span class="kw">xtable</span>(<span class="kw">table</span>(gap<span class="op">$</span>year, gap<span class="op">$</span>continent)), <span class="dt">type =</span> <span class="st">&quot;html&quot;</span>)</code></pre></div>
 <pre><code>## &lt;!-- html table generated in R 3.6.1 by xtable 1.8-4 package --&gt;
-## &lt;!-- Fri Sep  6 10:49:11 2019 --&gt;
+## &lt;!-- Fri Sep  6 13:13:39 2019 --&gt;
 ## &lt;table border=1&gt;
 ## &lt;tr&gt; &lt;th&gt;  &lt;/th&gt; &lt;th&gt; Africa &lt;/th&gt; &lt;th&gt; Americas &lt;/th&gt; &lt;th&gt; Asia &lt;/th&gt; &lt;th&gt; Europe &lt;/th&gt; &lt;th&gt; Oceania &lt;/th&gt;  &lt;/tr&gt;
 ##   &lt;tr&gt; &lt;td align=&quot;right&quot;&gt; 1952 &lt;/td&gt; &lt;td align=&quot;right&quot;&gt;  52 &lt;/td&gt; &lt;td align=&quot;right&quot;&gt;  25 &lt;/td&gt; &lt;td align=&quot;right&quot;&gt;  33 &lt;/td&gt; &lt;td align=&quot;right&quot;&gt;  30 &lt;/td&gt; &lt;td align=&quot;right&quot;&gt;   2 &lt;/td&gt; &lt;/tr&gt;
@@ -359,7 +359,7 @@ x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1
 <p>In the introductory material, we've already seen how to get a copy of a Github repository on your local machine.</p>
 <p>As you're gathering by now, I've used Git and Github to manage all the content for this workshop.</p>
 <h3 id="making-changes-to-a-repository">Making changes to a repository</h3>
-<p>We'll go through a short example of making changes to the r-bootcamp-fall-2019 repository. In this case you don't have permission to make changes so you'll just have to follow along as I do it. However, you could start your own repository and then you'd be able to do similar things.</p>
+<p>We'll go through a short example of making changes to the r-bootcamp-eng-2019 repository. In this case you don't have permission to make changes so you'll just have to follow along as I do it. However, you could start your own repository and then you'd be able to do similar things.</p>
 <p>Note that there are <a href="https://git-scm.com/downloads/guis">graphical interfaces to Git</a> that you might want to check out, but here I'm just going to do it from the command line on my Mac.</p>
 <p>The basic notion we need is a <em>commit</em>. As we make changes to our files, we want to commit those changes to the repository regularly. A <em>commit</em> is a set of changes recorded with Git. We will often then <em>push</em> those changes to a remote copy of the repository, such as on Github.</p>
 <p>Here's a basic workflow:</p>

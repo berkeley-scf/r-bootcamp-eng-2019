@@ -326,13 +326,13 @@ Please register on the D-Lab site by following the instructions below.
 
 We realize we're asking you to (seemingly redundantly) register in multiple places, but there is a reason for it. The initial registration form was used in order to facilitate creation of this bootcamp specially for the Engineering School. This registration is needed for D-Lab as we need to keep track of participation in our trainings to justify funding from campus.
 
-1) Visit https://dlab.berkeley.edu/
+1) Visit [https://dlab.berkeley.edu](https://dlab.berkeley.edu).
 
 2) Click "Log in" in the upper right corner
 
 3) Click the "Create New Account" tab - fill in the required fields and click the "Create New Account" button at the bottom of the page
 
-4) Visit the calendar entry for this workshop: https://dlab.berkeley.edu/training/r-bootcamp-3, scroll down and click "Register for this training"
+4) Visit the calendar entry for this workshop: [https://dlab.berkeley.edu/training/r-bootcamp-3](https://dlab.berkeley.edu/training/r-bootcamp-3), scroll down and click "Register for this training"
 
 5) Fill out the required fields and click "Save Registration". 
 
