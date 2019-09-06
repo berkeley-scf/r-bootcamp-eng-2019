@@ -1,6 +1,6 @@
 % R bootcamp, Module 5: Programming
 % August 2019, UC Berkeley
-% Chris Paciorek, with contributions from [Nima Hejazi](http://nimahejazi.org)
+% Emily Grabowski
 
 
 
@@ -32,12 +32,8 @@ for (yrIdx in seq_along(years)) {
      # n.b., seq_along(x) is better than 1:length(x), since it handles the case
      # where the length of an object is 0 or NULL more robustly.
      sub <- subset(gap, gap$year == years[yrIdx])
-     if (sum(!is.na(sub$lifeExp)) && length(sub$lifeExp) > 1) {
      # fit regression
-       out[[yrIdx]] <- lm(lifeExp ~ log(gdpPercap), data = sub)
-     } else {
-       out[[yrIdx]] <- NA
-     }
+     out[[yrIdx]] <- lm(lifeExp ~ log(gdpPercap), data = sub)
 }
 out[['2007']]
 ```
@@ -129,19 +125,15 @@ for (yr in years) {
 # While loop
 
 It's not a particularly interesting example, but we can see the `while` loop
-syntax in the same example.
+syntax in the same example. In this case 
 
 
 ```r
-i <- 1
+yrIdx <- 1
 while (yrIdx <= length(years)) {
-     sub <- subset(gap, gap$year == years[i])
-     if (sum(!is.na(sub$lifeExp)) && length(sub$lifeExp) > 1) {
+     sub <- subset(gap, gap$year == years[yrIdx])
      # fit regression
-       out[[yrIdx]] <- lm(lifeExp ~ log(gdpPercap), data = sub)
-     } else {
-       out[[yrIdx]] <- NA
-     }
+     out[[yrIdx]] <- lm(lifeExp ~ log(gdpPercap), data = sub)
      yrIdx = yrIdx + 1
 }
 summary(out[['2007']])
@@ -153,19 +145,19 @@ summary(out[['2007']])
 ## lm(formula = lifeExp ~ log(gdpPercap), data = sub)
 ## 
 ## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -28.9571  -5.7319   0.7517   6.5770  13.7361 
+##     Min      1Q  Median      3Q     Max 
+## -25.947  -2.661   1.215   4.469  13.115 
 ## 
 ## Coefficients:
 ##                Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)    -17.8457     5.0668  -3.522 0.000578 ***
-## log(gdpPercap)   8.8298     0.6626  13.326  < 2e-16 ***
+## (Intercept)      4.9496     3.8577   1.283    0.202    
+## log(gdpPercap)   7.2028     0.4423  16.283   <2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 8.146 on 140 degrees of freedom
-## Multiple R-squared:  0.5592,	Adjusted R-squared:  0.556 
-## F-statistic: 177.6 on 1 and 140 DF,  p-value: < 2.2e-16
+## Residual standard error: 7.122 on 140 degrees of freedom
+## Multiple R-squared:  0.6544,	Adjusted R-squared:  0.652 
+## F-statistic: 265.2 on 1 and 140 DF,  p-value: < 2.2e-16
 ```
 
 # Branching (if-then-else syntax)
@@ -182,7 +174,7 @@ val
 ```
 
 ```
-## [1] -0.209871
+## [1] -1.147096
 ```
 
 ```r
@@ -206,7 +198,7 @@ val
 ```
 
 ```
-## [1] 0.1294696
+## [1] -0.1771986
 ```
 
 ```r
@@ -233,7 +225,7 @@ if (val < 0) print("val is negative") else print("val is positive")
 ```
 
 ```
-## [1] "val is positive"
+## [1] "val is negative"
 ```
 
 # The condition in an if statement
@@ -653,8 +645,8 @@ x[ , 2]
 ```
 
 ```
-##  [1] 0.8188109 0.1010325 0.4739784 0.8036898 0.5555630 0.2812617 0.2683165
-##  [8] 0.8361411 0.3910611 0.8747552
+##  [1] 0.60447842 0.18049525 0.30612017 0.05086909 0.02415226 0.90246380
+##  [7] 0.63462019 0.04738810 0.51430523 0.95900751
 ```
 
 ```r
@@ -662,8 +654,8 @@ x[ , 2]
 ```
 
 ```
-##  [1] 0.8188109 0.1010325 0.4739784 0.8036898 0.5555630 0.2812617 0.2683165
-##  [8] 0.8361411 0.3910611 0.8747552
+##  [1] 0.60447842 0.18049525 0.30612017 0.05086909 0.02415226 0.90246380
+##  [7] 0.63462019 0.04738810 0.51430523 0.95900751
 ```
 
 Also yes!

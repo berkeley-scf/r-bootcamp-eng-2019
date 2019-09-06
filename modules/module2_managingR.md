@@ -266,11 +266,11 @@ If you're using R directly installed on your laptop (i.e., most of you), now (or
 
 ```r
 install.packages(c('chron','colorspace','codetools', 'DBI','devtools',
-                   'dichromat','digest','doParallel', 'dplyr', 'fields',
-                   'foreach','ggplot2','gridExtra','gtable','inline',
-                   'iterators','knitr','labeling','lattice','lme4',
+                   'dichromat','digest','doFuture','dplyr', 'fields',
+                   'foreach','future.apply', 'ggplot2','gridExtra','gtable',
+                   'inline','iterators','knitr','labeling','lattice','lme4',
                    'mapproj','maps','munsell','proftools','proto','purrr',
-                   'rbenchmark','RColorBrewer','Rcpp','reshape2','rJava',
+                   'R6','rbenchmark','RColorBrewer','Rcpp','reshape2','rJava',
                    'RSQLite', 'scales','spam','stringr','tidyr','xlsx',
                    'xlsxjars','xtable'))
 ```
@@ -333,7 +333,7 @@ lm(gap$lifeExp ~ gap$gdpPercap)
 
 ```
 ## gap$lifeExp ~ gap$gdpPercap
-## <environment: 0x5577b2d91aa0>
+## <environment: 0x55fad98921f8>
 ```
 
 ```r
@@ -508,8 +508,8 @@ print(xtable(table(gap$year, gap$continent)), type = "html")
 ```
 
 ```
-## <!-- html table generated in R 3.5.1 by xtable 1.8-3 package -->
-## <!-- Tue Aug 13 13:56:48 2019 -->
+## <!-- html table generated in R 3.6.1 by xtable 1.8-4 package -->
+## <!-- Fri Sep  6 10:49:12 2019 -->
 ## <table border=1>
 ## <tr> <th>  </th> <th> Africa </th> <th> Americas </th> <th> Asia </th> <th> Europe </th> <th> Oceania </th>  </tr>
 ##   <tr> <td align="right"> 1952 </td> <td align="right">  52 </td> <td align="right">  25 </td> <td align="right">  33 </td> <td align="right">  30 </td> <td align="right">   2 </td> </tr>

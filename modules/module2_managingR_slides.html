@@ -171,11 +171,11 @@ z &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">a 
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">'fields'</span>, <span class="dt">lib =</span> <span class="kw">file.path</span>(<span class="st">'~'</span>, <span class="st">'R'</span>))</code></pre></div>
 <p>If you're using R directly installed on your laptop (i.e., most of you), now (or at the break) would be a good point to install the various packages we need for the bootcamp, which can be done easily with the following command:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="kw">c</span>(<span class="st">'chron'</span>,<span class="st">'colorspace'</span>,<span class="st">'codetools'</span>, <span class="st">'DBI'</span>,<span class="st">'devtools'</span>,
-                   <span class="st">'dichromat'</span>,<span class="st">'digest'</span>,<span class="st">'doParallel'</span>, <span class="st">'dplyr'</span>, <span class="st">'fields'</span>,
-                   <span class="st">'foreach'</span>,<span class="st">'ggplot2'</span>,<span class="st">'gridExtra'</span>,<span class="st">'gtable'</span>,<span class="st">'inline'</span>,
-                   <span class="st">'iterators'</span>,<span class="st">'knitr'</span>,<span class="st">'labeling'</span>,<span class="st">'lattice'</span>,<span class="st">'lme4'</span>,
+                   <span class="st">'dichromat'</span>,<span class="st">'digest'</span>,<span class="st">'doFuture'</span>,<span class="st">'dplyr'</span>, <span class="st">'fields'</span>,
+                   <span class="st">'foreach'</span>,<span class="st">'future.apply'</span>, <span class="st">'ggplot2'</span>,<span class="st">'gridExtra'</span>,<span class="st">'gtable'</span>,
+                   <span class="st">'inline'</span>,<span class="st">'iterators'</span>,<span class="st">'knitr'</span>,<span class="st">'labeling'</span>,<span class="st">'lattice'</span>,<span class="st">'lme4'</span>,
                    <span class="st">'mapproj'</span>,<span class="st">'maps'</span>,<span class="st">'munsell'</span>,<span class="st">'proftools'</span>,<span class="st">'proto'</span>,<span class="st">'purrr'</span>,
-                   <span class="st">'rbenchmark'</span>,<span class="st">'RColorBrewer'</span>,<span class="st">'Rcpp'</span>,<span class="st">'reshape2'</span>,<span class="st">'rJava'</span>,
+                   <span class="st">'R6'</span>,<span class="st">'rbenchmark'</span>,<span class="st">'RColorBrewer'</span>,<span class="st">'Rcpp'</span>,<span class="st">'reshape2'</span>,<span class="st">'rJava'</span>,
                    <span class="st">'RSQLite'</span>, <span class="st">'scales'</span>,<span class="st">'spam'</span>,<span class="st">'stringr'</span>,<span class="st">'tidyr'</span>,<span class="st">'xlsx'</span>,
                    <span class="st">'xlsxjars'</span>,<span class="st">'xtable'</span>))</code></pre></div>
 <p>Note that packages often are dependent on other packages so these dependencies may be installed and loaded automatically. E.g., <em>fields</em> depends on <em>maps</em> and on <em>spam</em>.</p>
@@ -208,7 +208,7 @@ z &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">a 
 <pre><code>## [1] 7</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(gap<span class="op">$</span>lifeExp <span class="op">~</span><span class="st"> </span>gap<span class="op">$</span>gdpPercap)</code></pre></div>
 <pre><code>## gap$lifeExp ~ gap$gdpPercap
-## &lt;environment: 0x5577b08c9f00&gt;</code></pre>
+## &lt;environment: 0x55fad8c3f030&gt;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stats<span class="op">::</span><span class="kw">lm</span>(gap<span class="op">$</span>lifeExp <span class="op">~</span><span class="st"> </span>gap<span class="op">$</span>gdpPercap)</code></pre></div>
 <pre><code>## 
 ## Call:
@@ -324,8 +324,8 @@ x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1
 <p><code>xtable()</code> formats tables for HTML and Latex (the default).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(xtable)
 <span class="kw">print</span>(<span class="kw">xtable</span>(<span class="kw">table</span>(gap<span class="op">$</span>year, gap<span class="op">$</span>continent)), <span class="dt">type =</span> <span class="st">&quot;html&quot;</span>)</code></pre></div>
-<pre><code>## &lt;!-- html table generated in R 3.5.1 by xtable 1.8-3 package --&gt;
-## &lt;!-- Tue Aug 13 13:56:46 2019 --&gt;
+<pre><code>## &lt;!-- html table generated in R 3.6.1 by xtable 1.8-4 package --&gt;
+## &lt;!-- Fri Sep  6 10:49:11 2019 --&gt;
 ## &lt;table border=1&gt;
 ## &lt;tr&gt; &lt;th&gt;  &lt;/th&gt; &lt;th&gt; Africa &lt;/th&gt; &lt;th&gt; Americas &lt;/th&gt; &lt;th&gt; Asia &lt;/th&gt; &lt;th&gt; Europe &lt;/th&gt; &lt;th&gt; Oceania &lt;/th&gt;  &lt;/tr&gt;
 ##   &lt;tr&gt; &lt;td align=&quot;right&quot;&gt; 1952 &lt;/td&gt; &lt;td align=&quot;right&quot;&gt;  52 &lt;/td&gt; &lt;td align=&quot;right&quot;&gt;  25 &lt;/td&gt; &lt;td align=&quot;right&quot;&gt;  33 &lt;/td&gt; &lt;td align=&quot;right&quot;&gt;  30 &lt;/td&gt; &lt;td align=&quot;right&quot;&gt;   2 &lt;/td&gt; &lt;/tr&gt;

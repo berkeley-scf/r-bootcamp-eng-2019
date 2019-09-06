@@ -227,12 +227,8 @@ for (yrIdx in seq_along(years)) {
      # n.b., seq_along(x) is better than 1:length(x), since it handles the case
      # where the length of an object is 0 or NULL more robustly.
      sub &lt;- subset(gap, gap$year == years[yrIdx])
-     if (sum(!is.na(sub$lifeExp)) &amp;&amp; length(sub$lifeExp) &gt; 1) {
      # fit regression
-       out[[yrIdx]] &lt;- lm(lifeExp ~ log(gdpPercap), data = sub)
-     } else {
-       out[[yrIdx]] &lt;- NA
-     }
+     out[[yrIdx]] &lt;- lm(lifeExp ~ log(gdpPercap), data = sub)
 }
 out[[&#39;2007&#39;]]
 </code></pre>
@@ -316,17 +312,13 @@ out[[&#39;2007&#39;]]
 <h1>While loop</h1>
 
 <p>It&#39;s not a particularly interesting example, but we can see the <code>while</code> loop
-syntax in the same example.</p>
+syntax in the same example. In this case </p>
 
-<pre><code class="r">i &lt;- 1
+<pre><code class="r">yrIdx &lt;- 1
 while (yrIdx &lt;= length(years)) {
-     sub &lt;- subset(gap, gap$year == years[i])
-     if (sum(!is.na(sub$lifeExp)) &amp;&amp; length(sub$lifeExp) &gt; 1) {
+     sub &lt;- subset(gap, gap$year == years[yrIdx])
      # fit regression
-       out[[yrIdx]] &lt;- lm(lifeExp ~ log(gdpPercap), data = sub)
-     } else {
-       out[[yrIdx]] &lt;- NA
-     }
+     out[[yrIdx]] &lt;- lm(lifeExp ~ log(gdpPercap), data = sub)
      yrIdx = yrIdx + 1
 }
 summary(out[[&#39;2007&#39;]])
@@ -337,19 +329,19 @@ summary(out[[&#39;2007&#39;]])
 ## lm(formula = lifeExp ~ log(gdpPercap), data = sub)
 ## 
 ## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -28.9571  -5.7319   0.7517   6.5770  13.7361 
+##     Min      1Q  Median      3Q     Max 
+## -25.947  -2.661   1.215   4.469  13.115 
 ## 
 ## Coefficients:
 ##                Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)    -17.8457     5.0668  -3.522 0.000578 ***
-## log(gdpPercap)   8.8298     0.6626  13.326  &lt; 2e-16 ***
+## (Intercept)      4.9496     3.8577   1.283    0.202    
+## log(gdpPercap)   7.2028     0.4423  16.283   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 8.146 on 140 degrees of freedom
-## Multiple R-squared:  0.5592, Adjusted R-squared:  0.556 
-## F-statistic: 177.6 on 1 and 140 DF,  p-value: &lt; 2.2e-16
+## Residual standard error: 7.122 on 140 degrees of freedom
+## Multiple R-squared:  0.6544, Adjusted R-squared:  0.652 
+## F-statistic: 265.2 on 1 and 140 DF,  p-value: &lt; 2.2e-16
 </code></pre>
 
 <h1>Branching (if-then-else syntax)</h1>
@@ -363,7 +355,7 @@ implicit.</p>
 val
 </code></pre>
 
-<pre><code>## [1] -0.209871
+<pre><code>## [1] -1.147096
 </code></pre>
 
 <pre><code class="r">if (val &lt; 0) {
@@ -382,7 +374,7 @@ val
 val
 </code></pre>
 
-<pre><code>## [1] 0.1294696
+<pre><code>## [1] -0.1771986
 </code></pre>
 
 <pre><code class="r">if (val &lt; -1) {
@@ -404,7 +396,7 @@ but R will complain when an <code>else</code> starts a line of code, so generall
 <pre><code class="r">if (val &lt; 0) print(&quot;val is negative&quot;) else print(&quot;val is positive&quot;)
 </code></pre>
 
-<pre><code>## [1] &quot;val is positive&quot;
+<pre><code>## [1] &quot;val is negative&quot;
 </code></pre>
 
 <h1>The condition in an if statement</h1>
@@ -780,15 +772,15 @@ talk</a></p></li>
 x[ , 2]
 </code></pre>
 
-<pre><code>##  [1] 0.8188109 0.1010325 0.4739784 0.8036898 0.5555630 0.2812617 0.2683165
-##  [8] 0.8361411 0.3910611 0.8747552
+<pre><code>##  [1] 0.60447842 0.18049525 0.30612017 0.05086909 0.02415226 0.90246380
+##  [7] 0.63462019 0.04738810 0.51430523 0.95900751
 </code></pre>
 
 <pre><code class="r">&#39;[&#39;(x , , 2)
 </code></pre>
 
-<pre><code>##  [1] 0.8188109 0.1010325 0.4739784 0.8036898 0.5555630 0.2812617 0.2683165
-##  [8] 0.8361411 0.3910611 0.8747552
+<pre><code>##  [1] 0.60447842 0.18049525 0.30612017 0.05086909 0.02415226 0.90246380
+##  [7] 0.63462019 0.04738810 0.51430523 0.95900751
 </code></pre>
 
 <p>Also yes!</p>

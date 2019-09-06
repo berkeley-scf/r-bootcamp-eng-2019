@@ -54,7 +54,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   <p class="author">
 August 2019, UC Berkeley
   </p>
-  <p class="date">Chris Paciorek, with contributions from <a href="http://nimahejazi.org">Nima Hejazi</a></p>
+  <p class="date">Emily Grabowski</p>
 </div>
 <div id="loops" class="slide section level1">
 <h1>Loops</h1>
@@ -72,12 +72,8 @@ years &lt;-<span class="st"> </span><span class="kw">unique</span>(gap<span clas
      <span class="co"># n.b., seq_along(x) is better than 1:length(x), since it handles the case</span>
      <span class="co"># where the length of an object is 0 or NULL more robustly.</span>
      sub &lt;-<span class="st"> </span><span class="kw">subset</span>(gap, gap<span class="op">$</span>year <span class="op">==</span><span class="st"> </span>years[yrIdx])
-     <span class="cf">if</span> (<span class="kw">sum</span>(<span class="op">!</span><span class="kw">is.na</span>(sub<span class="op">$</span>lifeExp)) <span class="op">&amp;&amp;</span><span class="st"> </span><span class="kw">length</span>(sub<span class="op">$</span>lifeExp) <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>) {
      <span class="co"># fit regression</span>
-       out[[yrIdx]] &lt;-<span class="st"> </span><span class="kw">lm</span>(lifeExp <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(gdpPercap), <span class="dt">data =</span> sub)
-     } <span class="cf">else</span> {
-       out[[yrIdx]] &lt;-<span class="st"> </span><span class="ot">NA</span>
-     }
+     out[[yrIdx]] &lt;-<span class="st"> </span><span class="kw">lm</span>(lifeExp <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(gdpPercap), <span class="dt">data =</span> sub)
 }
 out[[<span class="st">'2007'</span>]]</code></pre></div>
 <pre><code>## 
@@ -144,16 +140,12 @@ out[[<span class="st">'2007'</span>]]</code></pre></div>
 </div>
 <div id="while-loop" class="slide section level1">
 <h1>While loop</h1>
-<p>It's not a particularly interesting example, but we can see the <code>while</code> loop syntax in the same example.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">i &lt;-<span class="st"> </span><span class="dv">1</span>
+<p>It's not a particularly interesting example, but we can see the <code>while</code> loop syntax in the same example. In this case</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">yrIdx &lt;-<span class="st"> </span><span class="dv">1</span>
 <span class="cf">while</span> (yrIdx <span class="op">&lt;=</span><span class="st"> </span><span class="kw">length</span>(years)) {
-     sub &lt;-<span class="st"> </span><span class="kw">subset</span>(gap, gap<span class="op">$</span>year <span class="op">==</span><span class="st"> </span>years[i])
-     <span class="cf">if</span> (<span class="kw">sum</span>(<span class="op">!</span><span class="kw">is.na</span>(sub<span class="op">$</span>lifeExp)) <span class="op">&amp;&amp;</span><span class="st"> </span><span class="kw">length</span>(sub<span class="op">$</span>lifeExp) <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>) {
+     sub &lt;-<span class="st"> </span><span class="kw">subset</span>(gap, gap<span class="op">$</span>year <span class="op">==</span><span class="st"> </span>years[yrIdx])
      <span class="co"># fit regression</span>
-       out[[yrIdx]] &lt;-<span class="st"> </span><span class="kw">lm</span>(lifeExp <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(gdpPercap), <span class="dt">data =</span> sub)
-     } <span class="cf">else</span> {
-       out[[yrIdx]] &lt;-<span class="st"> </span><span class="ot">NA</span>
-     }
+     out[[yrIdx]] &lt;-<span class="st"> </span><span class="kw">lm</span>(lifeExp <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(gdpPercap), <span class="dt">data =</span> sub)
      yrIdx =<span class="st"> </span>yrIdx <span class="op">+</span><span class="st"> </span><span class="dv">1</span>
 }
 <span class="kw">summary</span>(out[[<span class="st">'2007'</span>]])</code></pre></div>
@@ -162,19 +154,19 @@ out[[<span class="st">'2007'</span>]]</code></pre></div>
 ## lm(formula = lifeExp ~ log(gdpPercap), data = sub)
 ## 
 ## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -28.9571  -5.7319   0.7517   6.5770  13.7361 
+##     Min      1Q  Median      3Q     Max 
+## -25.947  -2.661   1.215   4.469  13.115 
 ## 
 ## Coefficients:
 ##                Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)    -17.8457     5.0668  -3.522 0.000578 ***
-## log(gdpPercap)   8.8298     0.6626  13.326  &lt; 2e-16 ***
+## (Intercept)      4.9496     3.8577   1.283    0.202    
+## log(gdpPercap)   7.2028     0.4423  16.283   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 8.146 on 140 degrees of freedom
-## Multiple R-squared:  0.5592, Adjusted R-squared:  0.556 
-## F-statistic: 177.6 on 1 and 140 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 7.122 on 140 degrees of freedom
+## Multiple R-squared:  0.6544, Adjusted R-squared:  0.652 
+## F-statistic: 265.2 on 1 and 140 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <div id="branching-if-then-else-syntax" class="slide section level1">
 <h1>Branching (if-then-else syntax)</h1>
@@ -182,7 +174,7 @@ out[[<span class="st">'2007'</span>]]</code></pre></div>
 <p>Here's a simple example to illustrate the syntax. Note that the <em>then</em> is implicit.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">val &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1</span>)
 val</code></pre></div>
-<pre><code>## [1] 0.8381919</code></pre>
+<pre><code>## [1] 1.500313</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (val <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>) {
   <span class="kw">print</span>(<span class="st">&quot;val is negative&quot;</span>)
 } <span class="cf">else</span> {
@@ -192,7 +184,7 @@ val</code></pre></div>
 <p>We can chain together <code>if</code> statements as follows.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">val &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1</span>)
 val</code></pre></div>
-<pre><code>## [1] 0.5271044</code></pre>
+<pre><code>## [1] -0.2575861</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (val <span class="op">&lt;</span><span class="st"> </span><span class="dv">-1</span>) {
   <span class="kw">print</span>(<span class="st">&quot;val is more than one standard deviation below the mean.&quot;</span>)
 } <span class="cf">else</span> <span class="cf">if</span> (<span class="kw">abs</span>(val) <span class="op">&lt;=</span><span class="st"> </span><span class="dv">1</span>) {
@@ -203,7 +195,7 @@ val</code></pre></div>
 <pre><code>## [1] &quot;val is within one standard deviation of the mean.&quot;</code></pre>
 <p>In general, the <code>{</code> brackets are only needed if you have multiple R expressions, but R will complain when an <code>else</code> starts a line of code, so generally using the <code>{</code> is good practice. That said, this <em>works just fine</em>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (val <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>) <span class="kw">print</span>(<span class="st">&quot;val is negative&quot;</span>) <span class="cf">else</span> <span class="kw">print</span>(<span class="st">&quot;val is positive&quot;</span>)</code></pre></div>
-<pre><code>## [1] &quot;val is positive&quot;</code></pre>
+<pre><code>## [1] &quot;val is negative&quot;</code></pre>
 </div>
 <div id="the-condition-in-an-if-statement" class="slide section level1">
 <h1>The condition in an if statement</h1>
@@ -425,11 +417,11 @@ f &lt;-<span class="st"> </span><span class="cf">function</span>(y) {
 <p>And what about indexing?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(<span class="dv">100</span>), <span class="dv">10</span>)
 x[ , <span class="dv">2</span>]</code></pre></div>
-<pre><code>##  [1] 0.39005671 0.13231542 0.69731476 0.27009576 0.06768292 0.89402602
-##  [7] 0.57917832 0.58184561 0.51113387 0.51071924</code></pre>
+<pre><code>##  [1] 0.79413334 0.87605825 0.49066508 0.07331000 0.39045817 0.07930181
+##  [7] 0.38321617 0.91787529 0.27603109 0.24033914</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="st">'['</span>(x , , <span class="dv">2</span>)</code></pre></div>
-<pre><code>##  [1] 0.39005671 0.13231542 0.69731476 0.27009576 0.06768292 0.89402602
-##  [7] 0.57917832 0.58184561 0.51113387 0.51071924</code></pre>
+<pre><code>##  [1] 0.79413334 0.87605825 0.49066508 0.07331000 0.39045817 0.07930181
+##  [7] 0.38321617 0.91787529 0.27603109 0.24033914</code></pre>
 <p>Also yes!</p>
 <p>This holds more generally - one can investigate and see the same thing in terms of a <code>for</code> loop.</p>
 <h3 id="what-does-the-1st-principle-mean">What does the 1st principle mean?</h3>

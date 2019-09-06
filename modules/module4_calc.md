@@ -1,6 +1,6 @@
 % R bootcamp, Module 4: Calculations
 % August 2019, UC Berkeley
-% Chris Paciorek
+% Simal Ozen Irmak
 
 
 
@@ -28,7 +28,7 @@ vec1 > vec2
 ```
 
 ```
-## [1]  TRUE FALSE  TRUE  TRUE  TRUE
+## [1]  TRUE  TRUE FALSE FALSE FALSE
 ```
 
 ```r
@@ -85,7 +85,7 @@ vec10
 ```
 
 ```
-##  [1] 10  9  4  9  9  3 10  4  2  1
+##  [1]  6  5 10  1  3  6  7  9  2  6
 ```
 
 ```r
@@ -93,7 +93,7 @@ vec3
 ```
 
 ```
-## [1] 1 3 2
+## [1]  4 10  8
 ```
 
 ```r
@@ -101,7 +101,7 @@ vec5
 ```
 
 ```
-## [1] 7 8 3 2 4
+## [1] 1 4 1 9 8
 ```
 
 ```r
@@ -109,7 +109,7 @@ vec10 + vec5
 ```
 
 ```
-##  [1] 17 17  7 11 13 10 18  7  4  5
+##  [1]  7  9 11 10 11  7 11 10 11 14
 ```
 
 ```r
@@ -122,7 +122,7 @@ vec10 + vec3
 ```
 
 ```
-##  [1] 11 12  6 10 12  5 11  7  4  2
+##  [1] 10 15 18  5 13 14 11 19 10 10
 ```
 
 **Question**: Tell me what's going on. What choices were made by the R developers?
@@ -154,7 +154,7 @@ system.time(trunc <- ifelse(vals > 0, vals, 0))
 
 ```
 ##    user  system elapsed 
-##   0.084   0.000   0.085
+##   0.025   0.016   0.041
 ```
 
 ```r
@@ -163,7 +163,7 @@ system.time(vals <- vals * (vals > 0))
 
 ```
 ##    user  system elapsed 
-##   0.004   0.000   0.005
+##   0.005   0.000   0.005
 ```
 
 **Question**: What am I doing with `vals * (vals > 0)` ? What happens behind the scenes in R?
@@ -343,7 +343,7 @@ for(i in 1:n)
 
 ```
 ##    user  system elapsed 
-##   2.892   0.008   2.900
+##   2.769   0.006   2.778
 ```
 
 The same holds for using `rbind()`, `cbind()`, or adding to a list, one element at a time.
@@ -368,7 +368,7 @@ for(i in 1:n)
 
 ```
 ##    user  system elapsed 
-##   0.035   0.000   0.035
+##   0.031   0.000   0.031
 ```
 
 Here's how to pre-allocate an empty list: 
@@ -428,13 +428,13 @@ lapply(myList, min)
 
 ```
 ## [[1]]
-## [1] -0.8286919
+## [1] -1.766296
 ## 
 ## [[2]]
-## [1] -1.543495
+## [1] -0.7448501
 ## 
 ## [[3]]
-## [1] -0.07627372
+## [1] -1.314306
 ```
 
 ```r
@@ -442,7 +442,7 @@ sapply(myList, min)
 ```
 
 ```
-## [1] -0.82869190 -1.54349527 -0.07627372
+## [1] -1.7662964 -0.7448501 -1.3143064
 ```
 
 Note that we don't generally want to use `apply()` on a data frame. 

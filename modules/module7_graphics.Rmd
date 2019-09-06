@@ -629,6 +629,14 @@ ggsave(filename = "example.pdf", plot = plot1, scale = , width = ,
        height = )
 ```
 
+# Feedback
+
+# Breakout
+
+Please fill out the feedback survey.
+
+[https://berkeley.qualtrics.com/jfe/form/SV_0Jy1rtGhm3a7lHf](https://berkeley.qualtrics.com/jfe/form/SV_0Jy1rtGhm3a7lHf)
+
 # Breakout
 
 These questions ask you to work with the gapminder dataset.
@@ -654,7 +662,3 @@ These questions ask you to work with the gapminder dataset.
 7) Create a "trellis" plot where, for a given year, each panel uses a) hollow circles to plot lifeExp as a function of log(gdpPercap), and b) a red loess smoother without standard errors to plot the trend. Turn off the grey background. Figure out how to use partially-transparent points to reduce the effect of the overplotting of points.
 
 
-# Breakout
-
-Please fill out the feedback survey.
-[https://berkeley.qualtrics.com/jfe/form/SV_3Qmh1KuwGkEDNEp](https://berkeley.qualtrics.com/jfe/form/XYZ)

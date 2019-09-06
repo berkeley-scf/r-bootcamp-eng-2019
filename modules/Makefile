@@ -23,8 +23,6 @@ clean:
 4: module4_calc.md
 5: module5_programming.md
 6: module6_tidyverse.md
-7: module7_analysis.md
-8: module8_graphics.md
-9: module9_workflows.md
-10: module10_advanced.md
-11: module11_next.md
+7: module7_graphics.md
+8: module8_advanced.md
+9: module9_next.md

@@ -1,6 +1,6 @@
 % R Bootcamp, Module 6: Data manipulation with the `tidyverse`
 % August 2019, UC Berkeley
-% Dana Seidel with materials developed by Nima Hejazi, Kellie Ottoboni, Rochelle Terman, and Chris Krogslund
+% Chris Paciorek with materials developed by Dana Seidel, Nima Hejazi, Kellie Ottoboni, Rochelle Terman, and Chris Krogslund
 
 
 

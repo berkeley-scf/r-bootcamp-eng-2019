@@ -28,7 +28,7 @@
 ```
 
 ```
-## [1] 7.849368
+## [1] 7.015894
 ```
 
 ```r
@@ -214,7 +214,7 @@ devs
 ```
 
 ```
-## [1]  1.2873154  0.3665713  0.4583627  1.2659437 -0.8711881
+## [1] -1.9535100 -0.5847474 -1.8180628  2.8601358 -0.7708416
 ```
 
 ```r
@@ -320,7 +320,7 @@ getwd()
 ```
 
 ```
-## [1] "/accounts/gen/vis/paciorek/staff/workshops/r-bootcamp-fall-2019/modules"
+## [1] "/accounts/gen/vis/paciorek/staff/workshops/r-bootcamp-eng-2019/modules"
 ```
 
 ```r
@@ -367,8 +367,8 @@ vals[1:8]
 ```
 
 ```
-## [1] 0.0000000 0.0000000 0.0000000 1.1585426 0.0000000 0.4622079 0.8301847
-## [8] 0.1949120
+## [1] 0.00000000 0.00000000 0.00000000 0.00000000 0.04235965 0.48434470
+## [7] 0.00000000 1.53349378
 ```
 
 ```r
@@ -407,7 +407,7 @@ vec1 > vec2
 ```
 
 ```
-## [1] FALSE  TRUE  TRUE FALSE  TRUE
+## [1]  TRUE  TRUE FALSE  TRUE  TRUE
 ```
 
 ```r
@@ -468,7 +468,7 @@ median
 ```
 ## function (x, na.rm = FALSE, ...) 
 ## UseMethod("median")
-## <bytecode: 0x55ec58f14090>
+## <bytecode: 0x55e03c505ce8>
 ## <environment: namespace:stats>
 ```
 
@@ -788,6 +788,22 @@ plot(gap$lifeExp ~ gap$gdpPercap, xlab = 'GDP per capita (dollars)',
 ```
 
 ![](figure/parstuff-1.png)
+
+# Pre-breakout
+
+Please register on the D-Lab site by following the instructions below.
+
+We realize we're asking you to (seemingly redundantly) register in multiple places, but there is a reason for it. The initial registration form was used in order to facilitate creation of this bootcamp specially for the Engineering School. This registration is needed for D-Lab as we need to keep track of participation in our trainings to justify funding from campus.
+
+1) Visit https://dlab.berkeley.edu/
+
+2) Click "Log in" in the upper right corner
+
+3) Click the "Create New Account" tab - fill in the required fields and click the "Create New Account" button at the bottom of the page
+
+4) Visit the calendar entry for this workshop: https://dlab.berkeley.edu/training/r-bootcamp-3, scroll down and click "Register for this training"
+
+5) Fill out the required fields and click "Save Registration". 
 
 # Breakout
 

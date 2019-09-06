@@ -60,6 +60,174 @@ August 2019, UC Berkeley
 <h1>This purpose of this module</h1>
 <p>For some of the topics here, my goal is not to teach you how to fish, but merely to tell you that fish exist, they are delicious, that they can be caught, and where one might go to figure out how to catch them.</p>
 </div>
+<div id="timing-your-code" class="slide section level1">
+<h1>Timing your code</h1>
+<p>First, a cautionary note...</p>
+<blockquote>
+<p>premature optimization is the root of all evil</p>
+<p>--- Donald Knuth, 1974</p>
+</blockquote>
+<p>There are a few tools in R for timing your code.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(<span class="kw">mean</span>(<span class="kw">rnorm</span>(<span class="fl">1e7</span>)))</code></pre></div>
+<pre><code>##    user  system elapsed 
+##   0.698   0.000   0.698</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rbenchmark)
+x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="fl">1e7</span>)
+<span class="kw">benchmark</span>(<span class="kw">ifelse</span>(x <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>, x, <span class="dv">0</span>),
+                   x[x <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>] &lt;-<span class="st"> </span><span class="dv">0</span>, <span class="dt">replications =</span> <span class="dv">5</span>,
+                   <span class="dt">columns =</span> <span class="kw">c</span>(<span class="st">'replications'</span>, <span class="st">'elapsed'</span>))</code></pre></div>
+<pre><code>##   replications elapsed
+## 1            5    1.57
+## 2            5    0.17</code></pre>
+</div>
+<div id="profiling-your-code" class="slide section level1">
+<h1>Profiling your code</h1>
+<p>For more advanced assessment of bottlenecks in your code, consider <code>Rprof()</code>. Actually, the output from <em>Rprof</em> can be hard to decipher, so you may want to use the <em>proftools</em> package functions, which make use of <em>Rprof</em> under the hood.</p>
+<p>Here's a function that does the linear algebra to implement a linear regression, assuming <code>x</code> is the matrix of predictors, including a column for the intercept.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lr_slow &lt;-<span class="st"> </span><span class="cf">function</span>(y, x) {
+  xtx &lt;-<span class="st"> </span><span class="kw">t</span>(x) <span class="op">%*%</span><span class="st"> </span>x
+  xty &lt;-<span class="st"> </span><span class="kw">t</span>(x) <span class="op">%*%</span><span class="st"> </span>y
+  inv &lt;-<span class="st"> </span><span class="kw">solve</span>(xtx)   ## explicit matrix inverse is slow and generally a bad idea numerically
+  <span class="kw">return</span>(inv <span class="op">%*%</span><span class="st"> </span>xty)
+}                   
+
+lr_medium &lt;-<span class="st"> </span><span class="cf">function</span>(y, x) {
+  xtx &lt;-<span class="st"> </span><span class="kw">crossprod</span>(x)
+  xty &lt;-<span class="st"> </span><span class="kw">crossprod</span>(x, y)
+  inv &lt;-<span class="st"> </span><span class="kw">solve</span>(xtx)   ## explicit matrix inverse is slow and generally a bad idea numerically
+  <span class="kw">return</span>(inv <span class="op">%*%</span><span class="st"> </span>xty)
+}                   
+
+lr_fast &lt;-<span class="st"> </span><span class="cf">function</span>(y, x) {
+  xtx &lt;-<span class="st"> </span><span class="kw">crossprod</span>(x)
+  xty &lt;-<span class="st"> </span><span class="kw">crossprod</span>(x, y)
+  U &lt;-<span class="st"> </span><span class="kw">chol</span>(xtx)
+  tmp &lt;-<span class="st"> </span><span class="kw">backsolve</span>(U, xty, <span class="dt">transpose =</span> <span class="ot">TRUE</span>)
+  <span class="kw">return</span>(<span class="kw">backsolve</span>(U, tmp))
+}                   </code></pre></div>
+<p>Now let's try these two functions with profiling turned on.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## generate random observations and random matrix of predictors
+y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">5000</span>)
+x &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rnorm</span>(<span class="dv">5000</span><span class="op">*</span><span class="dv">1000</span>), <span class="dt">nrow =</span> <span class="dv">5000</span>)
+
+<span class="kw">library</span>(proftools)
+
+pd1 &lt;-<span class="st"> </span><span class="kw">profileExpr</span>(<span class="kw">lr_slow</span>(y, x))
+<span class="kw">hotPaths</span>(pd1)</code></pre></div>
+<pre><code>##  path                  total.pct self.pct
+##  lazyLoadDBfetch       61.54      0.00   
+##  . &lt;Anonymous&gt;         61.54      0.00   
+##  . . lazyLoadDBfetch   61.54     61.54   
+##  lr_slow               38.46      0.00   
+##  . %*% (&lt;text&gt;:2)      23.08     23.08   
+##  . solve (&lt;text&gt;:4)     7.69      0.00   
+##  . . standardGeneric    7.69      0.00   
+##  . . . solve            7.69      0.00   
+##  . . . . solve.default  7.69      7.69   
+##  . t (&lt;text&gt;:2)         3.30      0.00   
+##  . . standardGeneric    3.30      0.00   
+##  . . . t                3.30      0.00   
+##  . . . . t.default      3.30      3.30   
+##  . t (&lt;text&gt;:3)         3.30      0.00   
+##  . . standardGeneric    3.30      0.00   
+##  . . . t                3.30      0.00   
+##  . . . . t.default      3.30      3.30   
+##  . %*% (&lt;text&gt;:3)       1.10      1.10</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hotPaths</span>(pd1, <span class="dt">value =</span> <span class="st">'time'</span>)</code></pre></div>
+<pre><code>##  path                  total.time self.time
+##  lazyLoadDBfetch       1.12       0.00     
+##  . &lt;Anonymous&gt;         1.12       0.00     
+##  . . lazyLoadDBfetch   1.12       1.12     
+##  lr_slow               0.70       0.00     
+##  . %*% (&lt;text&gt;:2)      0.42       0.42     
+##  . solve (&lt;text&gt;:4)    0.14       0.00     
+##  . . standardGeneric   0.14       0.00     
+##  . . . solve           0.14       0.00     
+##  . . . . solve.default 0.14       0.14     
+##  . t (&lt;text&gt;:2)        0.06       0.00     
+##  . . standardGeneric   0.06       0.00     
+##  . . . t               0.06       0.00     
+##  . . . . t.default     0.06       0.06     
+##  . t (&lt;text&gt;:3)        0.06       0.00     
+##  . . standardGeneric   0.06       0.00     
+##  . . . t               0.06       0.00     
+##  . . . . t.default     0.06       0.06     
+##  . %*% (&lt;text&gt;:3)      0.02       0.02</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pd1 &lt;-<span class="st"> </span><span class="kw">profileExpr</span>(<span class="kw">lr_medium</span>(y, x))
+<span class="kw">hotPaths</span>(pd1)</code></pre></div>
+<pre><code>##  path                   total.pct self.pct
+##  lr_medium              100.00     0.00   
+##  . crossprod (&lt;text&gt;:9)  55.56     0.00   
+##  . . crossprod           55.56     0.00   
+##  . . . base::crossprod   55.56    55.56   
+##  . solve (&lt;text&gt;:11)     44.44     0.00   
+##  . . standardGeneric     44.44     0.00   
+##  . . . solve             44.44     0.00   
+##  . . . . solve.default   44.44    44.44</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hotPaths</span>(pd1, <span class="dt">value =</span> <span class="st">'time'</span>)</code></pre></div>
+<pre><code>##  path                   total.time self.time
+##  lr_medium              0.36       0.00     
+##  . crossprod (&lt;text&gt;:9) 0.20       0.00     
+##  . . crossprod          0.20       0.00     
+##  . . . base::crossprod  0.20       0.20     
+##  . solve (&lt;text&gt;:11)    0.16       0.00     
+##  . . standardGeneric    0.16       0.00     
+##  . . . solve            0.16       0.00     
+##  . . . . solve.default  0.16       0.16</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pd3 &lt;-<span class="st"> </span><span class="kw">profileExpr</span>(<span class="kw">lr_fast</span>(y, x))
+<span class="kw">hotPaths</span>(pd3)</code></pre></div>
+<pre><code>##  path                    total.pct self.pct
+##  lr_fast                 100.00     0.00   
+##  . crossprod (&lt;text&gt;:16)  90.91     0.00   
+##  . . crossprod            90.91     0.00   
+##  . . . base::crossprod    90.91    90.91   
+##  . chol (&lt;text&gt;:18)        9.09     0.00   
+##  . . standardGeneric       9.09     0.00   
+##  . . . chol                9.09     0.00   
+##  . . . . chol.default      9.09     9.09</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hotPaths</span>(pd3, <span class="dt">value =</span> <span class="st">'time'</span>)</code></pre></div>
+<pre><code>##  path                    total.time self.time
+##  lr_fast                 0.22       0.00     
+##  . crossprod (&lt;text&gt;:16) 0.20       0.00     
+##  . . crossprod           0.20       0.00     
+##  . . . base::crossprod   0.20       0.20     
+##  . chol (&lt;text&gt;:18)      0.02       0.00     
+##  . . standardGeneric     0.02       0.00     
+##  . . . chol              0.02       0.00     
+##  . . . . chol.default    0.02       0.02</code></pre>
+<p>You might also check out <em>profvis</em> for an alternative to displaying profiling information generated by <em>Rprof</em>.</p>
+</div>
+<div id="memory-use" class="slide section level1">
+<h1>Memory use</h1>
+<p>You should know how much memory (RAM) the computer you are using has and keep in mind how big your objects are and how much memory you code might use. All objects in R are stored in RAM unlike, e.g., SAS or a database.</p>
+<p>If in total, the jobs on a machine approach the physical RAM, the machine will start to use the hard disk as 'virtual memory'. This is called paging or swapping, and once this happens you're often toast (i.e., your code may take essentially forever to finish).</p>
+<p>You can assess memory use with <code>top</code> or <code>ps</code> in Linux/Mac or the Task Manager in Windows.</p>
+<p>Often it's a good idea to roughly estimate how much memory an object will take up even before creating it in R. You can do this with some simple arithmetic. Every real number takes 8 bytes (integers and logicals take less; character strings are complicated), so an object with, say, 1 million rows and 10 columns, all numbers, would take roughly 8 * 1000000 * 10 bytes or 800 Mb.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="fl">1e7</span>)
+<span class="kw">object.size</span>(x)</code></pre></div>
+<pre><code>## 80000048 bytes</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="fl">1e7</span><span class="op">*</span><span class="dv">8</span><span class="op">/</span><span class="fl">1e6</span>  <span class="co"># direct calculation of Mb</span></code></pre></div>
+<pre><code>## [1] 80</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">object.size</span>(x), <span class="dt">units =</span> <span class="st">'auto'</span>)</code></pre></div>
+<pre><code>## 76.3 Mb</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="fl">1e8</span>)
+<span class="kw">gc</span>()</code></pre></div>
+<pre><code>##             used  (Mb) gc trigger   (Mb)  max used   (Mb)
+## Ncells    693622  37.1    1259974   67.3   1016645   54.3
+## Vcells 128180566 978.0  201571709 1537.9 138192149 1054.4</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rm</span>(x)
+<span class="kw">gc</span>()</code></pre></div>
+<pre><code>##            used  (Mb) gc trigger   (Mb)  max used   (Mb)
+## Ncells   693641  37.1    1259974   67.3   1016645   54.3
+## Vcells 28180607 215.1  161257368 1230.3 138192149 1054.4</code></pre>
+</div>
+<div id="batch-jobs-background-execution" class="slide section level1">
+<h1>Batch jobs / background execution</h1>
+<p>To run code as a background job in a Linux/Mac context:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">R CMD BATCH <span class="op">--</span>no<span class="op">-</span>save myCodeFile.R myOutput.Rout <span class="op">&amp;</span></code></pre></div>
+<p>Then you don't need to leave RStudio or R or a terminal window open. Your job will run by itself. If you are logged into a remote machine, you can log out and come back later.</p>
+<p>IMPORTANT: make sure to write any needed output to a file (e.g. .Rda files, CSV files, text output from print() or cat()).</p>
+</div>
 <div id="object-oriented-programming-oop-in-r" class="slide section level1">
 <h1>Object-oriented programming (OOP) in R</h1>
 <p>Confusingly, R has three (well, four) different systems for OOP, and none of them are as elegant and powerful as in Python or other languages more focused on OOP. That said, they get the job done for a lot of tasks.</p>
@@ -166,18 +334,23 @@ mod2<span class="op">$</span>residuals[<span class="dv">1</span><span class="op"
 ## see '?methods' for accessing help and source code</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">methods</span>(predict)</code></pre></div>
 <pre><code>##  [1] predict.ar*                predict.Arima*            
-##  [3] predict.arima0*            predict.glm               
-##  [5] predict.HoltWinters*       predict.lm                
-##  [7] predict.loess*             predict.mlm*              
-##  [9] predict.nls*               predict.poly*             
-## [11] predict.ppr*               predict.prcomp*           
-## [13] predict.princomp*          predict.smooth.spline*    
-## [15] predict.smooth.spline.fit* predict.StructTS*         
+##  [3] predict.arima0*            predict.fastTps           
+##  [5] predict.glm                predict.HoltWinters*      
+##  [7] predict.interp.surface     predict.Krig              
+##  [9] predict.lm                 predict.loess*            
+## [11] predict.mKrig              predict.mlm*              
+## [13] predict.nls*               predict.poly*             
+## [15] predict.ppr*               predict.prcomp*           
+## [17] predict.princomp*          predict.qsreg             
+## [19] predict.smooth.spline*     predict.smooth.spline.fit*
+## [21] predict.sreg               predict.StructTS*         
+## [23] predict.surface            predict.surface.default   
+## [25] predict.Tps               
 ## see '?methods' for accessing help and source code</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predict</code></pre></div>
 <pre><code>## function (object, ...) 
 ## UseMethod(&quot;predict&quot;)
-## &lt;bytecode: 0x5653b8a6d6e8&gt;
+## &lt;bytecode: 0x5652b073c6e8&gt;
 ## &lt;environment: namespace:stats&gt;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># predict.glm</span></code></pre></div>
 <p>When <code>predict()</code> is called on a GLM object, it first calls the generic <code>predict()</code>, which then recognizes that the first argument is of the class <em>glm</em> and immediately calls the right class-specific method, <code>predict.glm()</code> in this case.</p>
@@ -226,6 +399,11 @@ rboot2018</code></pre></div>
 <p>Here's a bit of an example of an S4 class for a linear mixed effects model from <em>lme4</em>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(lme4)</code></pre></div>
 <pre><code>## Loading required package: Matrix</code></pre>
+<pre><code>## 
+## Attaching package: 'Matrix'</code></pre>
+<pre><code>## The following object is masked from 'package:spam':
+## 
+##     det</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(methods)
 fm1 &lt;-<span class="st"> </span><span class="kw">lmer</span>(Reaction <span class="op">~</span><span class="st"> </span>Days <span class="op">+</span><span class="st"> </span>(Days<span class="op">|</span>Subject), sleepstudy)
 <span class="kw">class</span>(fm1)</code></pre></div>
@@ -312,25 +490,6 @@ tsSimClass<span class="op">$</span><span class="kw">set</span>(<span class="st">
 })
 
 master &lt;-<span class="st"> </span>tsSimClass<span class="op">$</span><span class="kw">new</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>, <span class="dv">2</span>, <span class="dv">1</span>)</code></pre></div>
-<pre><code>## Loading required package: spam</code></pre>
-<pre><code>## Loading required package: dotCall64</code></pre>
-<pre><code>## Loading required package: grid</code></pre>
-<pre><code>## Spam version 2.2-2 (2019-03-07) is loaded.
-## Type 'help( Spam)' or 'demo( spam)' for a short introduction 
-## and overview of this package.
-## Help for individual functions is also obtained by adding the
-## suffix '.spam' to the function name, e.g. 'help( chol.spam)'.</code></pre>
-<pre><code>## 
-## Attaching package: 'spam'</code></pre>
-<pre><code>## The following object is masked from 'package:Matrix':
-## 
-##     det</code></pre>
-<pre><code>## The following objects are masked from 'package:base':
-## 
-##     backsolve, forwardsolve</code></pre>
-<pre><code>## Loading required package: maps</code></pre>
-<pre><code>## See https://github.com/NCAR/Fields for
-##  an extensive vignette, other supplements and source code</code></pre>
 <pre><code>## Done updating correlation matrix and Cholesky factor.</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">master</code></pre></div>
 <pre><code>## R6 Object of class 'tsSimClass' with 100 time points.</code></pre>
@@ -561,17 +720,6 @@ x &lt;-<span class="st"> &quot;</span><span class="ch">\xa1</span><span class="s
 x</code></pre></div>
 <pre><code>## [1] &quot;¡ ¢ £ ñ ò&quot;</code></pre>
 </div>
-<div id="line-endings-in-text-files" class="slide section level1">
-<h1>Line endings in text files</h1>
-<p>Windows, Mac, and Linux handle line endings in text files somewhat differently. So if you read a text file into R that was created in a different operating system you can run into difficulties.</p>
-<ul>
-<li>In Windows lines end in both a newline (the ASCII character <code>\n</code>) and a carriage return (<code>\r</code>).</li>
-<li>In UNIX and Mac OS X, lines end in only a newline.</li>
-</ul>
-<p>So in UNIX you might see <code>^M</code> at the end of lines when you open a Windows file in a text editor. The <em>dos2unix</em> or <em>fromdos</em> in UNIX commands can do the necessary conversion</p>
-<p>In Windows you might have a UNIX text file appear to be all one line. The <em>unix2dos</em> or <em>todos</em> commands in UNIX can do the conversion.</p>
-<p>There may also be Windows tools to deal with this.</p>
-</div>
 <div id="working-with-databases" class="slide section level1">
 <h1>Working with databases</h1>
 <p>R has the capability to read and write from a variety of relational database management systems (DBMS). Basically a database is a collection of rectangular format datasets (tables). Some of these tables have fields in common so it makes sense to merge (i.e., join) information from multiple tables. E.g., you might have a database with a table of student information, a table of teacher information and a table of school information.</p>
@@ -695,22 +843,48 @@ U &lt;-<span class="st"> </span><span class="kw">chol</span>(<span class="kw">cr
 }
 
 
-<span class="kw">library</span>(future.apply)
-nCores &lt;-<span class="st"> </span><span class="dv">4</span>
+<span class="kw">library</span>(future.apply)</code></pre></div>
+<pre><code>## Loading required package: future</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nCores &lt;-<span class="st"> </span><span class="dv">4</span>
 <span class="kw">plan</span>(multisession, <span class="dt">workers =</span> nCores)  
-out &lt;-<span class="st"> </span><span class="kw">future_lapply</span>(<span class="kw">unique</span>(air<span class="op">$</span>Dest), fitFun)
-out[[<span class="dv">1</span>]]</code></pre></div>
+out &lt;-<span class="st"> </span><span class="kw">future_lapply</span>(<span class="kw">unique</span>(air<span class="op">$</span>Dest), fitFun)</code></pre></div>
+<pre><code>## Loading required package: nlme</code></pre>
+<pre><code>## This is mgcv 1.8-24. For overview type 'help(&quot;mgcv-package&quot;)'.</code></pre>
+<pre><code>## Loading required package: nlme</code></pre>
+<pre><code>## This is mgcv 1.8-24. For overview type 'help(&quot;mgcv-package&quot;)'.</code></pre>
+<pre><code>## Loading required package: nlme</code></pre>
+<pre><code>## This is mgcv 1.8-24. For overview type 'help(&quot;mgcv-package&quot;)'.</code></pre>
+<pre><code>## Loading required package: nlme</code></pre>
+<pre><code>## This is mgcv 1.8-24. For overview type 'help(&quot;mgcv-package&quot;)'.</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">out[[<span class="dv">1</span>]]</code></pre></div>
 <pre><code>## 
-## Family: gaussian 
-## Link function: identity 
+## Call:  gam(formula = DepDelay ~ Year + s(Month) + s(Hour) + as.factor(DayOfWeek), 
+##     data = tmp)
 ## 
-## Formula:
-## DepDelay ~ Year + s(Month) + s(Hour) + as.factor(DayOfWeek)
+## Coefficients:
+##           (Intercept)                   Year  as.factor(DayOfWeek)2  
+##            -4893.9557                 2.4450                -1.3944  
+## as.factor(DayOfWeek)3  as.factor(DayOfWeek)4  as.factor(DayOfWeek)5  
+##               -3.5435                -1.1716                 3.6183  
+## as.factor(DayOfWeek)6  as.factor(DayOfWeek)7             s(Month).1  
+##               -2.0145                 0.9968                -5.0608  
+##            s(Month).2             s(Month).3             s(Month).4  
+##               25.4005                -8.0436                 7.3798  
+##            s(Month).5             s(Month).6             s(Month).7  
+##                5.9606               -11.7354                -3.0381  
+##            s(Month).8             s(Month).9              s(Hour).1  
+##              -40.4991                12.1121                 6.8354  
+##             s(Hour).2              s(Hour).3              s(Hour).4  
+##                7.9086                10.9014                12.0335  
+##             s(Hour).5              s(Hour).6              s(Hour).7  
+##                2.1990                 9.3339                -0.8102  
+##             s(Hour).8              s(Hour).9  
+##              -14.5683                 4.9628  
 ## 
-## Estimated degrees of freedom:
-## 7.51 7.49  total = 23 
-## 
-## GCV score: 1051.858</code></pre>
+## Degrees of Freedom: 14591 Total (i.e. Null);  14568.85 Residual
+##   (136 observations deleted due to missingness)
+## Null Deviance:       16270000 
+## Residual Deviance: 15390000  AIC: 143000</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">out[[<span class="dv">81</span>]]</code></pre></div>
 <pre><code>## [1] &quot;Error in smooth.construct.tp.smooth.spec(object, dk$data, dk$knots) : \n  A term has fewer unique covariate combinations than specified maximum degrees of freedom\n&quot;
 ## attr(,&quot;class&quot;)
@@ -727,8 +901,16 @@ out[[<span class="dv">1</span>]]</code></pre></div>
 <p>To use multiple cores on a single machine, use the <em>parallel</em> back-end from the <em>doParallel</em> package.</p>
 <p>We'll use a new dataset here, which is a dataset of airline departure times (in particular delays) for all flights from SFO over a period of several years. We'll do a stratified analysis, fitting a GAM (see Unit 7) for each of the destination airports.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(parallel)
-<span class="kw">library</span>(doFuture)
-<span class="kw">library</span>(foreach)
+<span class="kw">library</span>(doFuture)</code></pre></div>
+<pre><code>## Loading required package: globals</code></pre>
+<pre><code>## 
+## Attaching package: 'globals'</code></pre>
+<pre><code>## The following object is masked from 'package:spam':
+## 
+##     cleanup</code></pre>
+<pre><code>## Loading required package: foreach</code></pre>
+<pre><code>## Loading required package: iterators</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(foreach)
 
 nCores &lt;-<span class="st"> </span><span class="dv">4</span>  <span class="co"># actually only 2 on my laptop, but appears hyperthreaded</span>
 <span class="kw">registerDoFuture</span>()
@@ -779,8 +961,10 @@ out &lt;-<span class="st"> </span><span class="kw">foreach</span>(<span class="d
 ## Starting job for CLT.
 ## Finishing job for CLT.
 ## Starting job for PHL.
-## Finishing job for PHL.
-## Starting job for PIT.
+## Finishing job for PHL.</code></pre>
+<pre><code>## Loading required package: nlme</code></pre>
+<pre><code>## This is mgcv 1.8-24. For overview type 'help(&quot;mgcv-package&quot;)'.</code></pre>
+<pre><code>## Starting job for PIT.
 ## Finishing job for PIT.
 ## Starting job for MEM.
 ## Finishing job for MEM.
@@ -821,8 +1005,10 @@ out &lt;-<span class="st"> </span><span class="kw">foreach</span>(<span class="d
 ## Starting job for IDA.
 ## Finishing job for IDA.
 ## Starting job for PSC.
-## Finishing job for PSC.
-## Starting job for MDW.
+## Finishing job for PSC.</code></pre>
+<pre><code>## Loading required package: nlme
+## This is mgcv 1.8-24. For overview type 'help(&quot;mgcv-package&quot;)'.</code></pre>
+<pre><code>## Starting job for MDW.
 ## Finishing job for MDW.
 ## Starting job for IND.
 ## Finishing job for IND.
@@ -861,8 +1047,10 @@ out &lt;-<span class="st"> </span><span class="kw">foreach</span>(<span class="d
 ## Starting job for SAT.
 ## Finishing job for SAT.
 ## Starting job for ABQ.
-## Finishing job for ABQ.
-## Starting job for ANC.
+## Finishing job for ABQ.</code></pre>
+<pre><code>## Loading required package: nlme
+## This is mgcv 1.8-24. For overview type 'help(&quot;mgcv-package&quot;)'.</code></pre>
+<pre><code>## Starting job for ANC.
 ## Finishing job for ANC.
 ## Starting job for SMX.
 ## Finishing job for SMX.
@@ -901,74 +1089,159 @@ out &lt;-<span class="st"> </span><span class="kw">foreach</span>(<span class="d
 ## Starting job for LMT.
 ## Finishing job for LMT.
 ## Starting job for OTH.
-## Finishing job for OTH.
-## Starting job for LGB.
-## Finishing job for LGB.</code></pre>
+## Finishing job for OTH.</code></pre>
+<pre><code>## Loading required package: nlme
+## This is mgcv 1.8-24. For overview type 'help(&quot;mgcv-package&quot;)'.</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">out[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</code></pre></div>
 <pre><code>## [[1]]
 ## 
-## Family: gaussian 
-## Link function: identity 
+## Call:  gam(formula = DepDelay ~ Year + s(Month) + s(Hour) + as.factor(DayOfWeek), 
+##     data = tmp)
 ## 
-## Formula:
-## DepDelay ~ Year + s(Month) + s(Hour) + as.factor(DayOfWeek)
+## Coefficients:
+##           (Intercept)                   Year  as.factor(DayOfWeek)2  
+##            -4893.9557                 2.4450                -1.3944  
+## as.factor(DayOfWeek)3  as.factor(DayOfWeek)4  as.factor(DayOfWeek)5  
+##               -3.5435                -1.1716                 3.6183  
+## as.factor(DayOfWeek)6  as.factor(DayOfWeek)7             s(Month).1  
+##               -2.0145                 0.9968                -5.0608  
+##            s(Month).2             s(Month).3             s(Month).4  
+##               25.4005                -8.0436                 7.3798  
+##            s(Month).5             s(Month).6             s(Month).7  
+##                5.9606               -11.7354                -3.0381  
+##            s(Month).8             s(Month).9              s(Hour).1  
+##              -40.4991                12.1121                 6.8354  
+##             s(Hour).2              s(Hour).3              s(Hour).4  
+##                7.9086                10.9014                12.0335  
+##             s(Hour).5              s(Hour).6              s(Hour).7  
+##                2.1990                 9.3339                -0.8102  
+##             s(Hour).8              s(Hour).9  
+##              -14.5683                 4.9628  
 ## 
-## Estimated degrees of freedom:
-## 7.51 7.49  total = 23 
-## 
-## GCV score: 1051.858     
+## Degrees of Freedom: 14591 Total (i.e. Null);  14568.85 Residual
+##   (136 observations deleted due to missingness)
+## Null Deviance:       16270000 
+## Residual Deviance: 15390000  AIC: 143000
 ## 
 ## [[2]]
 ## 
-## Family: gaussian 
-## Link function: identity 
+## Call:  gam(formula = DepDelay ~ Year + s(Month) + s(Hour) + as.factor(DayOfWeek), 
+##     data = tmp)
 ## 
-## Formula:
-## DepDelay ~ Year + s(Month) + s(Hour) + as.factor(DayOfWeek)
+## Coefficients:
+##           (Intercept)                   Year  as.factor(DayOfWeek)2  
+##            -5206.8890                 2.6023                -1.4861  
+## as.factor(DayOfWeek)3  as.factor(DayOfWeek)4  as.factor(DayOfWeek)5  
+##               -1.2097                 1.3207                 3.0405  
+## as.factor(DayOfWeek)6  as.factor(DayOfWeek)7             s(Month).1  
+##               -3.7552                -0.9252                -8.9594  
+##            s(Month).2             s(Month).3             s(Month).4  
+##               26.8221                -5.5532                 3.9200  
+##            s(Month).5             s(Month).6             s(Month).7  
+##                3.9681               -13.8596                -3.2367  
+##            s(Month).8             s(Month).9              s(Hour).1  
+##              -33.9909                13.6400               -18.1760  
+##             s(Hour).2              s(Hour).3              s(Hour).4  
+##               31.5796                 8.2368                13.5844  
+##             s(Hour).5              s(Hour).6              s(Hour).7  
+##              -10.7985                13.1946                -8.8085  
+##             s(Hour).8              s(Hour).9  
+##               48.1750               -50.5353  
 ## 
-## Estimated degrees of freedom:
-## 7.46 8.64  total = 24.1 
-## 
-## GCV score: 1325.755     
+## Degrees of Freedom: 11727 Total (i.e. Null);  11703.8 Residual
+##   (129 observations deleted due to missingness)
+## Null Deviance:       16370000 
+## Residual Deviance: 15640000  AIC: 117700
 ## 
 ## [[3]]
 ## 
-## Family: gaussian 
-## Link function: identity 
+## Call:  gam(formula = DepDelay ~ Year + s(Month) + s(Hour) + as.factor(DayOfWeek), 
+##     data = tmp)
 ## 
-## Formula:
-## DepDelay ~ Year + s(Month) + s(Hour) + as.factor(DayOfWeek)
+## Coefficients:
+##           (Intercept)                   Year  as.factor(DayOfWeek)2  
+##            -2281.2277                 1.1406                -1.9832  
+## as.factor(DayOfWeek)3  as.factor(DayOfWeek)4  as.factor(DayOfWeek)5  
+##               -1.5068                -0.5192                 2.1675  
+## as.factor(DayOfWeek)6  as.factor(DayOfWeek)7             s(Month).1  
+##               -0.9512                -0.1586                -1.1404  
+##            s(Month).2             s(Month).3             s(Month).4  
+##                8.0139                -0.8589                 1.0544  
+##            s(Month).5             s(Month).6             s(Month).7  
+##                1.6575                -4.2027                -0.8873  
+##            s(Month).8             s(Month).9              s(Hour).1  
+##              -14.6503                 2.6804                 5.4652  
+##             s(Hour).2              s(Hour).3              s(Hour).4  
+##              -22.6194                 8.4652               -11.3328  
+##             s(Hour).5              s(Hour).6              s(Hour).7  
+##              -11.2158               -21.7937                 4.0555  
+##             s(Hour).8              s(Hour).9  
+##               49.3911               -11.1622  
 ## 
-## Estimated degrees of freedom:
-## 5.93 8.70  total = 22.63 
-## 
-## GCV score: 639.5956     
+## Degrees of Freedom: 13435 Total (i.e. Null);  13413.09 Residual
+##   (414 observations deleted due to missingness)
+## Null Deviance:       8870000 
+## Residual Deviance: 8397000   AIC: 124700
 ## 
 ## [[4]]
 ## 
-## Family: gaussian 
-## Link function: identity 
+## Call:  gam(formula = DepDelay ~ Year + s(Month) + s(Hour) + as.factor(DayOfWeek), 
+##     data = tmp)
 ## 
-## Formula:
-## DepDelay ~ Year + s(Month) + s(Hour) + as.factor(DayOfWeek)
+## Coefficients:
+##           (Intercept)                   Year  as.factor(DayOfWeek)2  
+##            -5.070e+03              2.531e+00              2.236e-02  
+## as.factor(DayOfWeek)3  as.factor(DayOfWeek)4  as.factor(DayOfWeek)5  
+##             5.882e-01              2.623e+00              3.030e+00  
+## as.factor(DayOfWeek)6  as.factor(DayOfWeek)7             s(Month).1  
+##            -7.100e-01              1.001e-01             -9.064e+00  
+##            s(Month).2             s(Month).3             s(Month).4  
+##             3.658e+01             -8.789e+00              1.864e+01  
+##            s(Month).5             s(Month).6             s(Month).7  
+##             7.843e+00             -1.979e+01             -4.176e+00  
+##            s(Month).8             s(Month).9              s(Hour).1  
+##            -5.499e+01              1.134e+01              9.304e+00  
+##             s(Hour).2              s(Hour).3              s(Hour).4  
+##            -1.078e+00              2.049e-01             -1.057e+01  
+##             s(Hour).5              s(Hour).6              s(Hour).7  
+##            -1.269e+01             -6.311e+00              5.252e+00  
+##             s(Hour).8              s(Hour).9  
+##             1.632e+01              2.178e+01  
 ## 
-## Estimated degrees of freedom:
-## 7.84 8.51  total = 24.35 
-## 
-## GCV score: 880.4363     
+## Degrees of Freedom: 18273 Total (i.e. Null);  18249.35 Residual
+##   (289 observations deleted due to missingness)
+## Null Deviance:       16990000 
+## Residual Deviance: 16160000  AIC: 175900
 ## 
 ## [[5]]
 ## 
-## Family: gaussian 
-## Link function: identity 
+## Call:  gam(formula = DepDelay ~ Year + s(Month) + s(Hour) + as.factor(DayOfWeek), 
+##     data = tmp)
 ## 
-## Formula:
-## DepDelay ~ Year + s(Month) + s(Hour) + as.factor(DayOfWeek)
+## Coefficients:
+##           (Intercept)                   Year  as.factor(DayOfWeek)2  
+##            -7.669e+03              3.829e+00             -2.025e+00  
+## as.factor(DayOfWeek)3  as.factor(DayOfWeek)4  as.factor(DayOfWeek)5  
+##            -7.081e-01              4.176e+00              3.051e+00  
+## as.factor(DayOfWeek)6  as.factor(DayOfWeek)7             s(Month).1  
+##            -4.249e+00             -2.079e-02             -8.638e+00  
+##            s(Month).2             s(Month).3             s(Month).4  
+##             3.303e+01             -8.049e+00              1.323e+01  
+##            s(Month).5             s(Month).6             s(Month).7  
+##             6.723e+00             -1.974e+01             -3.667e+00  
+##            s(Month).8             s(Month).9              s(Hour).1  
+##            -4.995e+01              1.316e+01              1.934e+00  
+##             s(Hour).2              s(Hour).3              s(Hour).4  
+##            -1.689e+01             -6.134e-01             -7.211e+00  
+##             s(Hour).5              s(Hour).6              s(Hour).7  
+##            -1.774e+00             -2.327e+00             -2.262e+00  
+##             s(Hour).8              s(Hour).9  
+##            -3.611e+00              2.974e+00  
 ## 
-## Estimated degrees of freedom:
-## 8.00 5.68  total = 21.69 
-## 
-## GCV score: 1367.66</code></pre>
+## Degrees of Freedom: 20613 Total (i.e. Null);  20591.65 Residual
+##   (462 observations deleted due to missingness)
+## Null Deviance:       29420000 
+## Residual Deviance: 27860000  AIC: 207200</code></pre>
 <p><strong>Question</strong>: What do you think are the advantages and disadvantages of having many small tasks vs. a few large tasks?</p>
 </div>
 <div id="parallelization-and-random-number-generation" class="slide section level1">

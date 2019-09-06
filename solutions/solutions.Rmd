@@ -1,5 +1,5 @@
 % R bootcamp, Breakout Solutions
-% January 2019, UC Berkeley
+% September 2019, UC Berkeley
 % Chris Paciorek
 
 ```{r chunksetup, include=FALSE, cache=TRUE} 
@@ -371,101 +371,8 @@ gap_wider <- gap_rel_gdp %>%
 ```
 
 
-# 7) Module 7: Core tools
 
-```{r, basics7}
-## 1 ##
-popMean <- 5
-x <- rpois(100, popMean)
-mean(x) - popMean
-
-## 2 ##
-qchisq(0.95, 1)
-
-## 3 ##
-1 - pnorm(5)  # pnorm(5, upper.tail = TRUE)
-1 - pt(5, df = 1)
-```
-
-```{r, using_the_ideas7}
-
-## 4 ##
-reg1 <- lm(lifeExp ~ log(gdpPercap) + log(pop) + year, 
-                data=gap)
-## here we assume a linear relationship of gdp with year
-## this is not flexible but allows us to fit the model with less data
-
-reg2 <- lm(lifeExp ~ log(gdpPercap) + log(pop) + factor(year), 
-                data = gap)
-## here we assume a completely arbitrary relationship of gdp with year
-## we need enough data in each year to be able to reasonably estimate the average lifeExp for that year, given the other explanatory variables
-
-
-## 5 ##
-nBoot <- 500
-vals <- rep(0, nBoot)
-
-for(i in seq_len(nBoot)) { 
-      smp <- sample(seq_len(nrow(gap)), replace = TRUE) 
-      vals[i] <- mean(gap$lifeExp[smp], na.rm = TRUE)
-}
-hist(vals)
-
-## bootstrap based standard error (s.d. of sampling distribution)
-se_boot <- sd(vals)
-
-## standard error using usual sigma/sqrt(n) calculation
-n <- sum(!is.na(gap$lifeExp))
-se_norm <- sd(gap$lifeExp, na.rm = TRUE) / sqrt(n)
-
-## 6 ##
-mod <- gam(lifeExp ~ s(gdpPercap, k = 30) + s(year, k = 10), data = gap)
-plot(mod)
-summary(mod)
-
-mod <- gam(lifeExp ~ s(gdpPercap, k = 60) + s(year, k = 10), data = gap)
-plot(mod)
-summary(mod)  # edf values are about the same as previously so 'k' is not constraining
-
-mod <- gam(lifeExp ~ s(gdpPercap, k = 4) + s(year, k = 3), data = gap)
-plot(mod)
-# Now the edf is much lower (and R^2 has decreased).
-# Note that uncertainty is decreased under the nearly linear fit for year.
-
-```
-
-```{r, advanced7}
-
-## 7 ##
-library(dplyr)
-gap2 <- gap %>%
-  mutate(sign = ifelse(lifeExp > 60, 1, 0))
-
-reg_logit <- glm(sign ~ log(gdpPercap) + log(pop),
-                family = binomial(link = "logit"), data = gap2)
-
-## 8 ## 
-nFolds <- 10
-n <- nrow(gap)
-fold_size <- rep(round(n / nFolds), nFolds)
-fold_size[nFolds] <- n - (nFolds - 1)*fold_size[1]
-
-fold <- rep(1:nFolds, times = fold_size)
-table(fold)
-set.seed(1)
-gap$fold <- sample(fold, replace = TRUE)
-
-## 9 ##
-n <- 100
-nReps <- 10000
-data <- matrix(rpois(n*nReps, 3), ncol = nReps)
-mns <- colMeans(data)
-par(mfrow = c(1, 2))
-hist(mns)
-qqnorm(mns)
-```
-
-# Module 8: Graphics
+# Module 7: Graphics
 
 ```{r, basics8}
 

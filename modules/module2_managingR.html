@@ -416,11 +416,11 @@ ls()
 <p>If you&#39;re using R directly installed on your laptop (i.e., most of you), now (or at the break) would be a good point to install the various packages we need for the bootcamp, which can be done easily with the following command:</p>
 
 <pre><code class="r">install.packages(c(&#39;chron&#39;,&#39;colorspace&#39;,&#39;codetools&#39;, &#39;DBI&#39;,&#39;devtools&#39;,
-                   &#39;dichromat&#39;,&#39;digest&#39;,&#39;doParallel&#39;, &#39;dplyr&#39;, &#39;fields&#39;,
-                   &#39;foreach&#39;,&#39;ggplot2&#39;,&#39;gridExtra&#39;,&#39;gtable&#39;,&#39;inline&#39;,
-                   &#39;iterators&#39;,&#39;knitr&#39;,&#39;labeling&#39;,&#39;lattice&#39;,&#39;lme4&#39;,
+                   &#39;dichromat&#39;,&#39;digest&#39;,&#39;doFuture&#39;,&#39;dplyr&#39;, &#39;fields&#39;,
+                   &#39;foreach&#39;,&#39;future.apply&#39;, &#39;ggplot2&#39;,&#39;gridExtra&#39;,&#39;gtable&#39;,
+                   &#39;inline&#39;,&#39;iterators&#39;,&#39;knitr&#39;,&#39;labeling&#39;,&#39;lattice&#39;,&#39;lme4&#39;,
                    &#39;mapproj&#39;,&#39;maps&#39;,&#39;munsell&#39;,&#39;proftools&#39;,&#39;proto&#39;,&#39;purrr&#39;,
-                   &#39;rbenchmark&#39;,&#39;RColorBrewer&#39;,&#39;Rcpp&#39;,&#39;reshape2&#39;,&#39;rJava&#39;,
+                   &#39;R6&#39;,&#39;rbenchmark&#39;,&#39;RColorBrewer&#39;,&#39;Rcpp&#39;,&#39;reshape2&#39;,&#39;rJava&#39;,
                    &#39;RSQLite&#39;, &#39;scales&#39;,&#39;spam&#39;,&#39;stringr&#39;,&#39;tidyr&#39;,&#39;xlsx&#39;,
                    &#39;xlsxjars&#39;,&#39;xtable&#39;))
 </code></pre>
@@ -476,7 +476,7 @@ lm(7)
 </code></pre>
 
 <pre><code>## gap$lifeExp ~ gap$gdpPercap
-## &lt;environment: 0x5577b2d91aa0&gt;
+## &lt;environment: 0x55fad98921f8&gt;
 </code></pre>
 
 <pre><code class="r">stats::lm(gap$lifeExp ~ gap$gdpPercap)
@@ -635,8 +635,8 @@ dev.off()
 print(xtable(table(gap$year, gap$continent)), type = &quot;html&quot;)
 </code></pre>
 
-<pre><code>## &lt;!-- html table generated in R 3.5.1 by xtable 1.8-3 package --&gt;
-## &lt;!-- Tue Aug 13 13:56:48 2019 --&gt;
+<pre><code>## &lt;!-- html table generated in R 3.6.1 by xtable 1.8-4 package --&gt;
+## &lt;!-- Fri Sep  6 10:49:12 2019 --&gt;
 ## &lt;table border=1&gt;
 ## &lt;tr&gt; &lt;th&gt;  &lt;/th&gt; &lt;th&gt; Africa &lt;/th&gt; &lt;th&gt; Americas &lt;/th&gt; &lt;th&gt; Asia &lt;/th&gt; &lt;th&gt; Europe &lt;/th&gt; &lt;th&gt; Oceania &lt;/th&gt;  &lt;/tr&gt;
 ##   &lt;tr&gt; &lt;td align=&quot;right&quot;&gt; 1952 &lt;/td&gt; &lt;td align=&quot;right&quot;&gt;  52 &lt;/td&gt; &lt;td align=&quot;right&quot;&gt;  25 &lt;/td&gt; &lt;td align=&quot;right&quot;&gt;  33 &lt;/td&gt; &lt;td align=&quot;right&quot;&gt;  30 &lt;/td&gt; &lt;td align=&quot;right&quot;&gt;   2 &lt;/td&gt; &lt;/tr&gt;

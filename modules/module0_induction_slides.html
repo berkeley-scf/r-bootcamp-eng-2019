@@ -22,7 +22,7 @@ August 2019, UC Berkeley
 <div id="a-few-administrative-things" class="slide section level1">
 <h1>A few administrative things</h1>
 <h2 id="where-to-find-stuff">Where to find stuff</h2>
-<p>The GitHub site (<a href="https://github.com/berkeley-scf/r-bootcamp-fall-2019" class="uri">https://github.com/berkeley-scf/r-bootcamp-fall-2019</a>) is the main site for the bootcamp. It has information on logistics, software installation, and is the master repository for materials for the modules.</p>
+<p>The GitHub site (<a href="https://github.com/berkeley-scf/r-bootcamp-eng-2019" class="uri">https://github.com/berkeley-scf/r-bootcamp-eng-2019</a>) is the main site for the bootcamp. It has information on logistics, software installation, and is the master repository for materials for the modules.</p>
 <p>We'll use the r-bootcamp-fall-2019@lists.berkeley.edu <a href="https://groups.google.com/a/lists.berkeley.edu/d/forum/r-bootcamp-fall-2019">Google group</a> for discussion and answering questions during (and before) the bootcamp.</p>
 <p>If you have an administrative question, email r-bootcamp@lists.berkeley.edu.</p>
 <h2 id="wireless">Wireless</h2>
@@ -37,7 +37,7 @@ August 2019, UC Berkeley
 <p>The bootcamp will be organized in modules, each of which will be a combination of lecture/demo presentation concluded by a breakout session in which you'll work on a variety of problems of different levels of difficulty. The idea is for each person to find problems that challenge them but are not too hard. Solutions to the breakout problems will be presented before the start of the next module.</p>
 <p>Many of the modules will use a common dataset as an example on which to carry out various operations. We'll focus on dataset of demographic/economic information (population, GDP per capita, life expectancy) for many of the countries in the world every five years, provided by the <a href="https://www.gapminder.org">Gapminder project</a>. (Note that this is almost the full population of countries -- I'll fit some statistical models but the interpretation is tricky as we are not working with a sample from a well-defined population.)</p>
 <p>Counselors will be available to help answer any questions you have (just wave to one of them), or feel free to just ask the presenter during the presentation. The counselors will also be monitoring the <a href="https://groups.google.com/a/lists.berkeley.edu/d/forum/r-bootcamp-fall-2019">Google group Q&amp;A area</a>, so feel free to type in a question there (or send email to r-bootcamp-fall-2019@lists.berkeley.edu) and one of the counselors will answer the question. Or if you know the answer, help us out by answering it yourself or adding your thoughts.</p>
-<p>Your counseloRs are: Nima Hejazi (Biostatistics), Miyabi Ishihara (Statistics), Dana Seidel (ESPM alum), and Evan Muzzall (D-Lab).</p>
+<p>Your counseloRs are: Simal Irmak (D-Lab), Emily Grabowski (D-Lab), and Evan Muzzall (D-Lab).</p>
 </div>
 <div id="suggestions-on-how-to-get-the-most-out-of-the-bootcamp" class="slide section level1">
 <h1>Suggestions on how to get the most out of the bootcamp</h1>
@@ -60,7 +60,7 @@ August 2019, UC Berkeley
 </div>
 <div id="rstudio-and-r-markdown" class="slide section level1">
 <h1>RStudio and R Markdown</h1>
-<p>We'll present most of the material from within RStudio, using R Markdown documents with embedded R code. R Markdown is an extension to the Markdown markup language that makes it easy to write HTML in a simple plain text format. This allows us to both run the R code directly as well as compile on-the-fly to an HTML file that can be used for presentation. All files will be available on <a href="https://github.com/berkeley-scf/r-bootcamp-fall-2019">Github</a>.</p>
+<p>We'll present most of the material from within RStudio, using R Markdown documents with embedded R code. R Markdown is an extension to the Markdown markup language that makes it easy to write HTML in a simple plain text format. This allows us to both run the R code directly as well as compile on-the-fly to an HTML file that can be used for presentation. All files will be available on <a href="https://github.com/berkeley-scf/r-bootcamp-eng-2019">Github</a>.</p>
 <p>Note: The files named <em>moduleX_blah_slides.html</em> have individual slides, while the files named <em>moduleX_blah.html</em> have the same content but all on one page.</p>
 <p>Warning: in some cases the processing of the R code in the R Markdown is screwy and the slides have error messages that do not occur if you just run the code directly in R or RStudio.</p>
 </div>
@@ -70,8 +70,8 @@ August 2019, UC Berkeley
 <h2 id="within-rstudio">Within RStudio</h2>
 <p>Within RStudio go to File-&gt;New Project-&gt;Version Control-&gt;Git and enter:</p>
 <ul>
-<li>&quot;Repository URL&quot;: https://github.com/berkeley-scf/r-bootcamp-fall-2019</li>
-<li>&quot;Project Directory Name&quot;: r-bootcamp-fall-2019 (or something else of your choosing)</li>
+<li>&quot;Repository URL&quot;: https://github.com/berkeley-scf/r-bootcamp-eng-2019</li>
+<li>&quot;Project Directory Name&quot;: r-bootcamp-eng-2019 (or something else of your choosing)</li>
 <li>&quot;Directory&quot;: ~/Desktop (or somewhere of your choosing)</li>
 </ul>
 <p>Then to update from the repository to get any changes we've made, you can select (from within RStudio): Tools-&gt;Version Control-&gt;Pull Branches</p>
@@ -81,15 +81,15 @@ August 2019, UC Berkeley
 <p>Run the following commands:</p>
 <ul>
 <li><code>cd /directory/where/you/want/repository/located</code></li>
-<li><code>git clone https://github.com/berkeley-scf/r-bootcamp-fall-2019</code></li>
+<li><code>git clone https://github.com/berkeley-scf/r-bootcamp-eng-2019</code></li>
 </ul>
 <p>Then to update from the repository to get any changes we've made:</p>
 <ul>
-<li><code>cd /directory/where/you/put/the/repository/r-bootcamp-fall-2019</code></li>
+<li><code>cd /directory/where/you/put/the/repository/r-bootcamp-eng-2019</code></li>
 <li><code>git pull</code></li>
 </ul>
 <h2 id="as-a-zip-file">As a zip file</h2>
-<p>If you don't want to bother using Git or have problems, simply download a zip file with all the material from <a href="https://github.com/berkeley-scf/r-bootcamp-fall-2019/archive/master.zip" class="uri">https://github.com/berkeley-scf/r-bootcamp-fall-2019/archive/master.zip</a>.</p>
+<p>If you don't want to bother using Git or have problems, simply download a zip file with all the material from <a href="https://github.com/berkeley-scf/r-bootcamp-eng-2019/archive/master.zip" class="uri">https://github.com/berkeley-scf/r-bootcamp-eng-2019/archive/master.zip</a>.</p>
 </div>
 <div id="what-is-r" class="slide section level1">
 <h1>What is R?</h1>
@@ -182,14 +182,14 @@ E.g., <a href="http://imgs.xkcd.com/comics/python.png">Python</a> is very good f
 <div id="thanks" class="slide section level1">
 <h1>Thanks!</h1>
 <ul>
-<li>To Evan, Nima, Dana, and Miyabi.</li>
-<li>To D-Lab for sponsorship and logistical support.</li>
-<li>To the Statewide Database at Berkeley Law for hosting/co-sponsoring.</li>
+<li>To Evan, Simal, and Emily.</li>
+<li>To D-Lab for logistical support.</li>
+<li>To the Masters in Engineering program for sponsorship and room reservation.</li>
 </ul>
 </div>
 <div id="we-want-your-feedback-even-if-you-leave-early" class="slide section level1">
 <h1>We want your feedback (even if you leave early)!</h1>
-<p>During the afternoon break tomorrow, we'll ask everyone to fill out a feedback form, but if you leave early, please also fill it out: <a href="https://berkeley.qualtrics.com/jfe/form/SV_3Qmh1KuwGkEDNEp" class="uri">https://berkeley.qualtrics.com/jfe/form/SV_3Qmh1KuwGkEDNEp</a></p>
+<p>During the break tomorrow, we'll ask everyone to fill out a feedback form, but if you leave early, please also fill it out: <a href="https://berkeley.qualtrics.com/jfe/form/SV_0Jy1rtGhm3a7lHf" class="uri">https://berkeley.qualtrics.com/jfe/form/SV_0Jy1rtGhm3a7lHf</a></p>
 </div>
 </body>
 </html>
